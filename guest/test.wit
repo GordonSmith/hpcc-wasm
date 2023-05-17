@@ -9,8 +9,12 @@ interface iterator {
 }
 */
 
+interface host {
+  print: func(msg: string)
+}
+
 default world test {
-  import print: func(msg: string)
+  import global: self.host
 
   export echo: func(msg: string) -> string
   export add: func(a: u32, b:u32) -> u32

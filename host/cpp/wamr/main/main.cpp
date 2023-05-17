@@ -63,7 +63,7 @@ int main(int argc, const char *argv[])
     WASMRuntime runtime;
 
     int n_native_symbols = sizeof(native_symbols) / sizeof(NativeSymbol);
-    wasm_runtime_register_natives("$root", native_symbols, n_native_symbols);
+    wasm_runtime_register_natives("global", native_symbols, n_native_symbols);
 
     auto buffer = read_wasm_binary_to_buffer(wasmFile2);
     std::unique_ptr<WASMModuleCommon, decltype(&wasm_runtime_unload)> module(wasm_runtime_load(buffer.data(), buffer.size(), error_buf, sizeof(error_buf)), &wasm_runtime_unload);

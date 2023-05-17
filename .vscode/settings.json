@@ -1,3 +1,6 @@
 {
     "cmake.generator": "Ninja",
+    "files.associations": {
+        "random": "cpp"
+    },
 }

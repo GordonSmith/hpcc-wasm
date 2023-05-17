@@ -51,7 +51,7 @@ void print(wasm_exec_env_t exec_env, char *msg, uint32_t msg_len)
 }
 
 static NativeSymbol native_symbols[] = {
-    {"print", (void *)print, "(*~)"},
+    EXPORT_WASM_API_WITH_SIG(print, "(*~)"),
 };
 
 int main(int argc, const char *argv[])
@@ -71,7 +71,6 @@ int main(int argc, const char *argv[])
     wasm_function_inst_t addFunc = wasm_runtime_lookup_function(module_inst.get(), "add", NULL);
     wasm_function_inst_t subFunc = wasm_runtime_lookup_function(module_inst.get(), "sub", NULL);
 
-    /* creat an execution environment to execute the WASM functions */
     std::unique_ptr<WASMExecEnv, decltype(&wasm_runtime_destroy_exec_env)> exec_env(wasm_runtime_create_exec_env(module_inst.get(), stack_size), &wasm_runtime_destroy_exec_env);
 
     /* execute the WASM function with arguments (if any) */
@@ -80,11 +79,8 @@ int main(int argc, const char *argv[])
     addArgv[1] = 22;
     wasm_runtime_call_wasm(exec_env.get(), addFunc, 2, addArgv);
     printf("add function return: %i\n", addArgv[0]);
-    uint32_t subArgv[2];
-    subArgv[0] = 100;
-    subArgv[1] = 1;
-    wasm_runtime_call_wasm(exec_env.get(), subFunc, 2, subArgv);
-    printf("sub function return: %i\n", subArgv[0]);
+    wasm_runtime_call_wasm(exec_env.get(), subFunc, 2, addArgv);
+    printf("sub function return: %i\n", addArgv[0]);
 
     return 0;
 }

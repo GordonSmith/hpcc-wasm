@@ -87,7 +87,7 @@ int main(int argc, const char *argv[])
         strncpy(bufferB, "hello", 100); /* use native address for accessing in runtime */
         wasm_val_t results[1];
         wasm_runtime_call_wasm_v(exec_env.get(), echoFunc, 1, results, 2, buffer_for_wasm, 100);
-        strncpy(bufferD, results[0], 100);
+        // strncpy(bufferD, results[0], 100);
 
         /* it is runtime embedder's responsibility to release the memory,
            unless the WASM app will free the passed pointer in its code */

@@ -1,5 +1,7 @@
 build/
+lib/
 node_modules/
+javy/
 wasi-sdk-20.0/
 wasi-sdk-20.0+threads/
 wit-bindgen/

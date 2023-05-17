@@ -12,3 +12,4 @@ add_custom_target(wit-generate ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/cpp/wit/t
 
 add_subdirectory(AssemblyScript)
 add_subdirectory(cpp)
+add_subdirectory(JavaScript)

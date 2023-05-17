@@ -1,3 +1,3 @@
-[submodule "host/cpp/wamr/wasm-micro-framework"]
+[submodule "host/cpp/wamr/vmlib/wasm-micro-framework"]
 	path = host/cpp/wamr/vmlib/wasm-micro-framework
 	url = git@github.com:bytecodealliance/wasm-micro-runtime.git

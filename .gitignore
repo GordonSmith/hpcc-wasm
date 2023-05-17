@@ -1,0 +1,5 @@
+build/
+node_modules/
+guest/cpp/wasi-sdk/wasi-sdk-20.0/
+guest/cpp/wasi-sdk/wasi-sdk-20.0+threads/
+host/cpp/wamr/vmlib/wasm-micro-framework/

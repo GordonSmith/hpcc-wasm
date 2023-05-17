@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
 )
 
 file(COPY
+    ${CMAKE_CURRENT_SOURCE_DIR}/asconfig.json
     ${CMAKE_CURRENT_SOURCE_DIR}/assembly
     ${CMAKE_CURRENT_SOURCE_DIR}/package-lock.json
     ${CMAKE_CURRENT_SOURCE_DIR}/package.json

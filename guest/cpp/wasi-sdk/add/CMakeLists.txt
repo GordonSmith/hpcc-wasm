@@ -28,12 +28,12 @@ target_link_libraries(add
     ${HPCC_WASM_ROOT}/build/guest/cpp/wit/test_component_type.o
 )
 
-add_custom_command(
-    TARGET add POST_BUILD
-    COMMAND wasm-tools component new ${CMAKE_CURRENT_BINARY_DIR}/add.wasm -o ${HPCC_WASM_ROOT}/build/guest/cpp/bin/add.component.wasm --adapt wasi_snapshot_preview1=${HPCC_WASM_ROOT}/wit-bindgen/wasi_preview1_component_adapter.reactor.wasm
-    # COMMAND npx jco transpile ${CMAKE_CURRENT_BINARY_DIR}/test.component.wasm -o ${CMAKE_CURRENT_BINARY_DIR}/js --wasi-shim --map wasi-*=@bytecodealliance/preview2-shim/* --map print=../../../../src-components/test/logger.js 
-)
-set_property(SOURCE main.cpp APPEND PROPERTY OBJECT_DEPENDS ${HPCC_WASM_ROOT}/build/guest/cpp/wit/test.c)
+# add_custom_command(
+#     TARGET add POST_BUILD
+#     COMMAND wasm-tools component new ${CMAKE_CURRENT_BINARY_DIR}/add.wasm -o ${HPCC_WASM_ROOT}/build/guest/cpp/bin/add.component.wasm --adapt wasi_snapshot_preview1=${HPCC_WASM_ROOT}/wit-bindgen/wasi_preview1_component_adapter.reactor.wasm
+#     # COMMAND npx jco transpile ${CMAKE_CURRENT_BINARY_DIR}/test.component.wasm -o ${CMAKE_CURRENT_BINARY_DIR}/js --wasi-shim --map wasi-*=@bytecodealliance/preview2-shim/* --map print=../../../../src-components/test/logger.js 
+# )
+# set_property(SOURCE main.cpp APPEND PROPERTY OBJECT_DEPENDS ${HPCC_WASM_ROOT}/build/guest/cpp/wit/test.c)
 
 # Install the target and export the target information
 install(TARGETS add

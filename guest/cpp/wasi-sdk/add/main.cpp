@@ -1,15 +1,11 @@
-#include "main.hpp"
+#include "wit/test.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <string>
-
-extern "C" int sub(int a, int b)
-{
-    return a - b;
-}
-
-extern "C" int add(int a, int b)
+uint32_t test_add(uint32_t a, uint32_t b)
 {
     return a + b;
+}
+
+uint32_t test_sub(uint32_t a, uint32_t b)
+{
+    return a - b;
 }

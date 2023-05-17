@@ -20,10 +20,10 @@ add_custom_target(npm_install DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/npm_installed)
 # Build the project using npm
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/build/release.wasm
-    COMMAND npm run build
+    COMMAND npm run asbuild
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/assembly/index.ts
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Add a custom target to build the project
-add_custom_target(build_project DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/build/release.wasm)
+add_custom_target(build_project ALL DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/build/release.wasm)

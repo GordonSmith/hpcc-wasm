@@ -6,7 +6,7 @@
 
 #define own
 
-const char *const wasmFile = "/home/gordon/hpcc-wasm/guest/AssemblyScript/add/build/release.wasm";
+const char *const wasmFile = "/home/gordon/hpcc-wasm/guest/AssemblyScript/build/release.wasm";
 const char *const wasmFile2 = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
 
 std::vector<uint8_t> read_wasm_binary_to_buffer(const std::string &filename)
@@ -50,29 +50,21 @@ int main(int argc, const char *argv[])
     wasm_function_inst_t func;
     uint32_t stack_size = 8092, heap_size = 8092;
 
-    /* initialize the wasm runtime by default configurations */
     WASMRuntime runtime;
 
-    /* read WASM file into a memory buffer */
     auto buffer = read_wasm_binary_to_buffer(wasmFile2);
 
     /* add line below if we want to export native functions to WASM app */
     // wasm_runtime_register_natives(...);
 
-    /* parse the WASM file from buffer and create a WASM module */
     std::unique_ptr<WASMModuleCommon, decltype(&wasm_runtime_unload)> module(wasm_runtime_load(buffer.data(), buffer.size(), error_buf, sizeof(error_buf)), &wasm_runtime_unload);
 
-    /* create an instance of the WASM module (WASM linear memory is ready) */
     std::unique_ptr<WASMModuleInstanceCommon, decltype(&wasm_runtime_deinstantiate)> module_inst(wasm_runtime_instantiate(module.get(), stack_size, heap_size, error_buf, sizeof(error_buf)), &wasm_runtime_deinstantiate);
 
-    /* lookup a WASM function by its name
-   The function signature can NULL here */
-    func = wasm_runtime_lookup_function(module_inst.get(), "sub", NULL);
+    func = wasm_runtime_lookup_function(module_inst.get(), "add", NULL);
 
     /* creat an execution environment to execute the WASM functions */
-    // std::unique_ptr<wasm_exec_env_t, wasm_runtime_destroy_exec_env> exec_env = wasm_runtime_create_exec_env(module_inst, stack_size);
     std::unique_ptr<WASMExecEnv, decltype(&wasm_runtime_destroy_exec_env)> exec_env(wasm_runtime_create_exec_env(module_inst.get(), stack_size), &wasm_runtime_destroy_exec_env);
-    // auto exec_env = wasm_runtime_create_exec_env(module_inst, stack_size);
 
     /* execute the WASM function with arguments (if any) */
     uint32_t addArgv[2];

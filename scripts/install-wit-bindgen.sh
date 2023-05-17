@@ -7,7 +7,7 @@ then
     curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
     cargo install wasm-tools
 
-    cargo install --git https://github.com/bytecodealliance/wit-bindgen wit-bindgen-cli
+    cargo install --git https://github.com/bytecodealliance/wit-bindgen --tag wit-bindgen-cli-0.6.0 wit-bindgen-cli
 
     curl https://wasmtime.dev/install.sh -sSf | bash
 

@@ -1,8 +1,9 @@
+#include "wasm_export.h"
+
 #include <memory>
 #include <fstream>
 #include <vector>
-
-#include "wasm_export.h"
+#include <cstring>
 
 #define own
 
@@ -68,12 +69,31 @@ int main(int argc, const char *argv[])
     std::unique_ptr<WASMModuleCommon, decltype(&wasm_runtime_unload)> module(wasm_runtime_load(buffer.data(), buffer.size(), error_buf, sizeof(error_buf)), &wasm_runtime_unload);
     std::unique_ptr<WASMModuleInstanceCommon, decltype(&wasm_runtime_deinstantiate)> module_inst(wasm_runtime_instantiate(module.get(), stack_size, heap_size, error_buf, sizeof(error_buf)), &wasm_runtime_deinstantiate);
 
+    wasm_function_inst_t echoFunc = wasm_runtime_lookup_function(module_inst.get(), "echo", NULL);
     wasm_function_inst_t addFunc = wasm_runtime_lookup_function(module_inst.get(), "add", NULL);
     wasm_function_inst_t subFunc = wasm_runtime_lookup_function(module_inst.get(), "sub", NULL);
 
     std::unique_ptr<WASMExecEnv, decltype(&wasm_runtime_destroy_exec_env)> exec_env(wasm_runtime_create_exec_env(module_inst.get(), stack_size), &wasm_runtime_destroy_exec_env);
 
-    /* execute the WASM function with arguments (if any) */
+    char *bufferB = NULL;
+    char *bufferC = NULL;
+    char *bufferD = NULL;
+    uint32_t buffer_for_wasm, buffer_for_wasm2;
+
+    buffer_for_wasm = wasm_runtime_module_malloc(module_inst.get(), 100, (void **)&bufferB);
+    buffer_for_wasm2 = wasm_runtime_module_malloc(module_inst.get(), 100, (void **)&bufferC);
+    if (buffer_for_wasm != 0)
+    {
+        strncpy(bufferB, "hello", 100); /* use native address for accessing in runtime */
+        wasm_val_t results[1];
+        wasm_runtime_call_wasm_v(exec_env.get(), echoFunc, 1, results, 2, buffer_for_wasm, 100);
+        strncpy(bufferD, results[0], 100);
+
+        /* it is runtime embedder's responsibility to release the memory,
+           unless the WASM app will free the passed pointer in its code */
+        wasm_runtime_module_free(module_inst.get(), buffer_for_wasm);
+    }
+
     uint32_t addArgv[2];
     addArgv[0] = 11;
     addArgv[1] = 22;

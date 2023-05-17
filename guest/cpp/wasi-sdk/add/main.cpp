@@ -1,5 +1,17 @@
 #include "wit/test.h"
 
+#include <string>
+
+std::string s;
+void test_echo(test_string_t *msg, test_string_t *ret)
+{
+    s = msg->ptr;
+    s += ":echo";
+
+    test_string_set(ret, s.c_str());
+    test_print(ret);
+}
+
 uint32_t test_add(uint32_t a, uint32_t b)
 {
     test_string_t msg;

@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-set(WASI_SDK_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/wasi-sdk/wasi-sdk-20.0)
+set(WASI_SDK_PREFIX ${HPCC_WASM_ROOT}/wasi-sdk-20.0)
 
 ExternalProject_Add(wasi-sdk
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/wasi-sdk
@@ -10,3 +10,4 @@ ExternalProject_Add(wasi-sdk
         -DCMAKE_SYSROOT=${WASI_SDK_PREFIX}/share/wasi-sysroot
         -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}
 )
+

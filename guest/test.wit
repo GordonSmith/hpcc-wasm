@@ -1,0 +1,16 @@
+/* 
+interface iterator {
+  record row {
+    value: string,
+    done: bool,
+  }
+
+  next: func() -> row
+}
+*/
+
+default world test {
+  import print: func(msg: string)
+
+  export add: func(a: u32, b:u32) -> u32
+}

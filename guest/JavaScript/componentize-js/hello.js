@@ -6,7 +6,7 @@ export function echo(name) {
 
 export function add(a, b) {
   print(`add: ${a + b}`)
-  console.log("Console Test!!!!")
+  console.log("Console Test!")
   return a + b;
 }
 

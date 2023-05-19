@@ -7,7 +7,7 @@
 
 #define own
 
-const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.wasm";
+const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.core.wasm";
 const char *const wasmFile2 = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
 const char *const wasmFile3 = "/home/gordon/hpcc-wasm/guest/AssemblyScript/build/release.wasm";
 

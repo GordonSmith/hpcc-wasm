@@ -5,7 +5,8 @@
     "@bytecodealliance/componentize-js": "*"
   },
   "scripts": {
-    "build": "node componentize.js",
+    "transform": "jco transpile ./hello.component.wasm -o ./tmp",
+    "build": "node componentize.js && npm run transform && cp ./tmp/hello.component.core.wasm hello.wasm",
     "test": "./target/release/wasmtime-test"
   }
 }

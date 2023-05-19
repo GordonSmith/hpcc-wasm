@@ -1,1 +1,2 @@
 add_subdirectory(wamr)
+add_subdirectory(wasmtime)

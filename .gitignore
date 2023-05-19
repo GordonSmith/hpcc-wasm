@@ -1,8 +1,9 @@
 build/
 lib/
 node_modules/
-javy/
-wasi-sdk-20.0/
-wasi-sdk-20.0+threads/
-wit-bindgen/
-host/cpp/wamr/vmlib/wasm-micro-framework/
+/javy
+/wasi-sdk-20.0
+/wasi-sdk-20.0+threads
+/wasmtime
+/wit-bindgen
+/host/cpp/wamr/vmlib/wasm-micro-framework/

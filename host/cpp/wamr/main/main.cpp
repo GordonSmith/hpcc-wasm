@@ -7,8 +7,9 @@
 
 #define own
 
-const char *const wasmFile = "/home/gordon/hpcc-wasm/guest/AssemblyScript/build/release.wasm";
+const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/tmp/hello.component.core.wasm";
 const char *const wasmFile2 = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
+const char *const wasmFile3 = "/home/gordon/hpcc-wasm/guest/AssemblyScript/build/release.wasm";
 
 std::vector<uint8_t> read_wasm_binary_to_buffer(const std::string &filename)
 {
@@ -65,7 +66,7 @@ int main(int argc, const char *argv[])
     int n_native_symbols = sizeof(native_symbols) / sizeof(NativeSymbol);
     wasm_runtime_register_natives("global", native_symbols, n_native_symbols);
 
-    auto buffer = read_wasm_binary_to_buffer(wasmFile2);
+    auto buffer = read_wasm_binary_to_buffer(wasmFile);
     std::unique_ptr<WASMModuleCommon, decltype(&wasm_runtime_unload)> module(wasm_runtime_load(buffer.data(), buffer.size(), error_buf, sizeof(error_buf)), &wasm_runtime_unload);
     std::unique_ptr<WASMModuleInstanceCommon, decltype(&wasm_runtime_deinstantiate)> module_inst(wasm_runtime_instantiate(module.get(), stack_size, heap_size, error_buf, sizeof(error_buf)), &wasm_runtime_deinstantiate);
 

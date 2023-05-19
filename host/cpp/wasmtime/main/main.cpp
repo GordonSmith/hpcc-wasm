@@ -28,7 +28,7 @@ mkdir build && cd build && cmake .. && cmake --build . --target wasmtime-hello
 #include <wasm.h>
 #include <wasmtime.h>
 
-const char *const wasmFile = "/home/gordon/hpcc-wasm/host/cpp/wasmtime/main/hello.wat";
+const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/tmp/hello.component.core.wasm";
 const char *const wasmFile2 = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
 const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.wasm";
 
@@ -70,22 +70,22 @@ int main()
     fseek(file, 0L, SEEK_END);
     size_t file_size = ftell(file);
     fseek(file, 0L, SEEK_SET);
-    wasm_byte_vec_t wat;
-    wasm_byte_vec_new_uninitialized(&wat, file_size);
-    assert(fread(wat.data, file_size, 1, file) == 1);
+    wasm_byte_vec_t wasm;
+    wasm_byte_vec_new_uninitialized(&wasm, file_size);
+    assert(fread(wasm.data, file_size, 1, file) == 1);
     fclose(file);
 
     // Parse the wat into the binary wasm format
-    wasm_byte_vec_t wasm;
-    wasmtime_error_t *error = wasmtime_wat2wasm(wat.data, wat.size, &wasm);
-    if (error != NULL)
-        exit_with_error("failed to parse wat", error, NULL);
-    wasm_byte_vec_delete(&wat);
+    // wasm_byte_vec_t wasm;
+    // wasmtime_error_t *error = wasmtime_wat2wasm(wat.data, wat.size, &wasm);
+    // if (error != NULL)
+    //     exit_with_error("failed to parse wat", error, NULL);
+    // wasm_byte_vec_delete(&wat);
 
     // Now that we've got our binary webassembly we can compile our module.
     printf("Compiling module...\n");
     wasmtime_module_t *module = NULL;
-    error = wasmtime_module_new(engine, (uint8_t *)wasm.data, wasm.size, &module);
+    wasmtime_error_t *error = wasmtime_module_new(engine, (uint8_t *)wasm.data, wasm.size, &module);
     wasm_byte_vec_delete(&wasm);
     if (error != NULL)
         exit_with_error("failed to compile module", error, NULL);
@@ -115,14 +115,16 @@ int main()
 
     // Lookup our `run` export function
     printf("Extracting export...\n");
-    wasmtime_extern_t run;
-    bool ok = wasmtime_instance_export_get(context, &instance, "run", 3, &run);
+    wasmtime_extern_t add;
+    bool ok = wasmtime_instance_export_get(context, &instance, "add", 3, &add);
     assert(ok);
-    assert(run.kind == WASMTIME_EXTERN_FUNC);
+    assert(add.kind == WASMTIME_EXTERN_FUNC);
 
     // And call it!
     printf("Calling export...\n");
-    error = wasmtime_func_call(context, &run.of.func, NULL, 0, NULL, 0, &trap);
+    wasmtime_val_t args[] = {WASM_I32_VAL(42), WASM_I32_VAL(10)};
+    wasmtime_val_t results[1];
+    error = wasmtime_func_call(context, &add.of.func, args, 2, results, 1, &trap);
     if (error != NULL || trap != NULL)
         exit_with_error("failed to call function", error, trap);
 

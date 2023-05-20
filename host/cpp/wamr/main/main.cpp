@@ -1,3 +1,7 @@
+const char *const wasmFile1 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.core.wasm";
+const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
+const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.wasm";
+
 #include "wasm_export.h"
 
 #include <memory>
@@ -6,10 +10,6 @@
 #include <cstring>
 
 #define own
-
-const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.core.wasm";
-const char *const wasmFile2 = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
-const char *const wasmFile3 = "/home/gordon/hpcc-wasm/guest/AssemblyScript/build/release.wasm";
 
 std::vector<uint8_t> read_wasm_binary_to_buffer(const std::string &filename)
 {

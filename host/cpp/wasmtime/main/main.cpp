@@ -1,158 +1,101 @@
-/*
-Example of instantiating a WebAssembly which uses WASI imports.
-
-You can compile and run this example on Linux with:
-
-   cmake example/
-   cargo build --release -p wasmtime-c-api
-   cc examples/wasi/main.c \
-       -I crates/c-api/include \
-       -I crates/c-api/wasm-c-api/include \
-       target/release/libwasmtime.a \
-       -lpthread -ldl -lm \
-       -o wasi
-   ./wasi
-
-Note that on Windows and macOS the command will be similar, but you'll need
-to tweak the `-lpthread` and such annotations.
-
-You can also build using cmake:
-
-mkdir build && cd build && cmake .. && cmake --build . --target wasmtime-wasi
-*/
-
 const char *const wasmFile1 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.core.wasm";
 const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
-const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.wasm";
+const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/AssemblyScript/build/release.wasm";
+const char *const wasmFile4 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/Javy/build/index.wasm";
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <wasm.h>
-#include <wasi.h>
-#include <wasmtime.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <wasmtime.hh>
 
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+using namespace wasmtime;
 
-static void exit_with_error(const char *message, wasmtime_error_t *error, wasm_trap_t *trap);
-
-namespace global
+std::vector<uint8_t> read_wasm_binary_to_buffer(const std::string &filename)
 {
-    static wasm_trap_t *print(
-        void *env,
-        wasmtime_caller_t *caller,
-        const wasmtime_val_t *args,
-        size_t nargs,
-        wasmtime_val_t *results,
-        size_t nresults)
+    std::ifstream file(filename, std::ios::binary | std::ios::ate);
+    if (!file)
     {
-        printf("Calling back...\n");
-        printf("> Hello World!\n");
-        return NULL;
+        throw std::runtime_error("Failed to open file");
     }
+
+    std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    std::vector<uint8_t> buffer(size);
+    if (!file.read(reinterpret_cast<char *>(buffer.data()), size))
+    {
+        throw std::runtime_error("Failed to read file");
+    }
+
+    return buffer;
 }
 
 int main()
 {
-    // Set up our context
-    wasm_engine_t *engine = wasm_engine_new();
-    assert(engine != NULL);
-    wasmtime_store_t *store = wasmtime_store_new(engine, NULL, NULL);
-    assert(store != NULL);
-    wasmtime_context_t *context = wasmtime_store_context(store);
+    Engine engine;
+    Store store(engine);
 
-    // Create a linker with WASI functions defined
-    wasmtime_linker_t *linker = wasmtime_linker_new(engine);
-    wasmtime_error_t *error = wasmtime_linker_define_wasi(linker);
-    if (error != NULL)
-        exit_with_error("failed to link wasi", error, NULL);
+    std::cout << "Compiling module\n";
+    auto wasm = read_wasm_binary_to_buffer(wasmFile);
+    auto module = Module::compile(engine, wasm).unwrap();
 
-    wasm_byte_vec_t wasm;
-    // Load our input file to parse it next
-    FILE *file = fopen(wasmFile, "rb");
-    if (!file)
-    {
-        printf("> Error loading file!\n");
-        exit(1);
-    }
-    fseek(file, 0L, SEEK_END);
-    size_t file_size = ftell(file);
-    wasm_byte_vec_new_uninitialized(&wasm, file_size);
-    fseek(file, 0L, SEEK_SET);
-    if (fread(wasm.data, file_size, 1, file) != 1)
-    {
-        printf("> Error loading module!\n");
-        exit(1);
-    }
-    fclose(file);
+    std::cout << "Create wasi\n";
+    WasiConfig wasi;
+    // wasi.inherit_argv();
+    // wasi.inherit_env();
+    // wasi.inherit_stdin();
+    // wasi.inherit_stdout();
+    // wasi.inherit_stderr();
+    store.context().set_wasi(std::move(wasi)).unwrap();
 
-    // Compile our modules
-    wasmtime_module_t *module = NULL;
-    error = wasmtime_module_new(engine, (uint8_t *)wasm.data, wasm.size, &module);
-    if (!module)
-        exit_with_error("failed to compile module", error, NULL);
-    wasm_byte_vec_delete(&wasm);
+    std::cout << "Linking\n";
+    Linker linker(engine);
+    linker.define_wasi().unwrap();
 
-    // Instantiate wasi
-    wasi_config_t *wasi_config = wasi_config_new();
-    assert(wasi_config);
-    wasi_config_inherit_argv(wasi_config);
-    wasi_config_inherit_env(wasi_config);
-    wasi_config_inherit_stdin(wasi_config);
-    wasi_config_inherit_stdout(wasi_config);
-    wasi_config_inherit_stderr(wasi_config);
-    wasm_trap_t *trap = NULL;
-    error = wasmtime_context_set_wasi(context, wasi_config);
-    if (error != NULL)
-        exit_with_error("failed to instantiate WASI", error, NULL);
+    std::cout << "Creating callback...\n";
+    auto host_func = linker.func_wrap("global", "print",
+                                      [](Caller caller, uint32_t msg, uint32_t msg_len)
+                                      {
 
-    printf("Creating callback...\n");
-    wasm_functype_t *hello_ty = wasm_functype_new_0_0();
-    wasmtime_func_t hello;
-    wasmtime_func_new(context, hello_ty, global::print, NULL, NULL, &hello);
+                                          // const uint8_t* data = memory.data();
+                                          //     std::string str(reinterpret_cast<const char*>(data + msg), reinterpret_cast<const char*>(data + msg + msg_len));
 
-    // Instantiate the module
-    error = wasmtime_linker_module(linker, context, "", 0, module);
-    if (error != NULL)
-        exit_with_error("failed to instantiate module", error, NULL);
+                                          // auto memory = std::get<Memory>(*caller.get_export("memory"));
+                                          // auto type = memory.type(caller.context());
+                                          // auto data = memory.data(caller.context());
+                                          // auto size = memory.size(caller.context());
 
-    // Lookup our `run` export function
-    printf("Extracting export...\n");
-    wasmtime_extern_t add;
-    bool ok = wasmtime_linker_get(linker, context, "", 0, "add", 3, &add);
-    assert(ok);
-    assert(add.kind == WASMTIME_EXTERN_FUNC);
+                                          // std::string str(data[msg], data[msg] + msg_len);
 
-    // And call it!
-    printf("Calling export...\n");
-    wasmtime_val_t args[] = {WASM_I32_VAL(42), WASM_I32_VAL(10)};
-    wasmtime_val_t results[1];
-    error = wasmtime_func_call(context, &add.of.func, args, 2, results, 1, &trap);
-    if (error != NULL || trap != NULL)
-        exit_with_error("failed to call function", error, trap);
+                                          // Copy the string from the Wasm memory into the C++ string
+                                          // const char *msg_ptr = reinterpret_cast<const char *>(data[msg]);
+                                          // auto memory = std::get<Memory>(caller.get_export("memory")).unwrap();
+                                          // auto xxx = memory[msg];
+                                          // auto msg = memory.data(store)[msg];
+                
+        auto memory = std::get<Memory>(*caller.get_export("memory"));
+        auto data = memory.data(caller.context());
+        auto msg_ptr = (char *)&data[msg];
+        std::string str(msg_ptr, msg_len);
+        printf("print: %s\n", str.c_str()); })
+                         .unwrap();
 
-    // Clean up after ourselves at this point
-    wasmtime_module_delete(module);
-    wasmtime_store_delete(store);
-    wasm_engine_delete(engine);
-    return 0;
-}
+    // Once we've got that all set up we can then move to the instantiation
+    // phase, pairing together a compiled module as well as a set of imports.
+    // Note that this is where the wasm `start` function, if any, would run.
+    std::cout << "Instantiating module...\n";
+    Instance wasmInstance = linker.instantiate(store, module).unwrap();
+    linker.define_instance(store, "linking", wasmInstance).unwrap();
 
-static void exit_with_error(const char *message, wasmtime_error_t *error, wasm_trap_t *trap)
-{
-    fprintf(stderr, "error: %s\n", message);
-    wasm_byte_vec_t error_message;
-    if (error != NULL)
-    {
-        wasmtime_error_message(error, &error_message);
-        wasmtime_error_delete(error);
-    }
-    else
-    {
-        wasm_trap_message(trap, &error_message);
-        wasm_trap_delete(trap);
-    }
-    fprintf(stderr, "%.*s\n", (int)error_message.size, error_message.data);
-    wasm_byte_vec_delete(&error_message);
-    exit(1);
+    // std::cout << "Extracting memory...\n";
+    // auto memory = std::get<Memory>(*wasmInstance.get(store, "memory"));
+
+    std::cout << "Extracting add...\n";
+    auto add = std::get<Func>(*wasmInstance.get(store, "add"));
+
+    // And last but not least we can call it!
+    std::cout << "Calling add(22, 11)...\n";
+    std::cout << add.call(store, {22, 11}).unwrap()[0].i32() << "\n";
+
+    std::cout << "Done\n";
 }

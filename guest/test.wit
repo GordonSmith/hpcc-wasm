@@ -8,13 +8,10 @@ interface iterator {
   next: func() -> row
 }
 */
+package xxx:test
 
-interface host {
-  print: func(msg: string)
-}
-
-default world test {
-  import global: self.host
+world test {
+  import print: func(msg: string)
 
   export echo: func(msg: string) -> string
   export add: func(a: u32, b:u32) -> u32

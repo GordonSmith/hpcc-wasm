@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# List of current vertsion can be found in https://github.com/bytecodealliance/wit-bindgen/releases  ---
+
+#  https://github.com/bytecodealliance/wit-bindgen
+
+VERSION=0.9.0
 if [ ! -d "./wit-bindgen" ] 
 then
     mkdir wit-bindgen
@@ -7,7 +12,7 @@ then
     curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
     cargo install wasm-tools
 
-    cargo install --git https://github.com/bytecodealliance/wit-bindgen --tag wit-bindgen-cli-0.8.0 wit-bindgen-cli
+    cargo install --git https://github.com/bytecodealliance/wit-bindgen --tag wit-bindgen-cli-$VERSION wit-bindgen-cli
 
     curl https://wasmtime.dev/install.sh -sSf | bash
 

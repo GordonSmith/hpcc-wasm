@@ -1,10 +1,8 @@
 #!/bin/bash
 
 # List of current vertsion can be found in https://github.com/bytecodealliance/wit-bindgen/releases  ---
-
-#  https://github.com/bytecodealliance/wit-bindgen
-
 VERSION=0.9.0
+
 if [ ! -d "./wit-bindgen" ] 
 then
     mkdir wit-bindgen

@@ -1,0 +1,12 @@
+{
+  "name": "hpcc-wasm",
+  "version": "0.0.0",
+  "description": "Wasm musings and experiments",
+  "scripts": {
+    "install": "./scripts/install.sh",
+    "uninstall": "rm -rf ./emsdk ./javy ./wasi-sdk-* ./wasmtime ./wit-bindgen"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1"
+  }
+}

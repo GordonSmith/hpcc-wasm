@@ -53,7 +53,7 @@ int main()
     linker.define_wasi().unwrap();
 
     std::cout << "Creating callback...\n";
-    auto host_func = linker.func_wrap("global", "print",
+    auto host_func = linker.func_wrap("$root", "print",
                                       [](Caller caller, uint32_t msg, uint32_t msg_len)
                                       {
 

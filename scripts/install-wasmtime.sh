@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # List of current vertsion can be found in https://github.com/bytecodealliance/wasmtime/releases  ---
-WASMTIME_C_VERSION=8.0.1
-WASMTIME_CPP_VERSION=8.0.0
+WASMTIME_C_VERSION=11.0.1
+
+# List of current vertsion can be found in https://github.com/bytecodealliance/wasmtime-cpp/tags
+WASMTIME_CPP_VERSION=9.0.0
 if [ ! -d "./wasmtime" ] 
 then
     wget https://github.com/bytecodealliance/wasmtime/releases/download/v${WASMTIME_C_VERSION}/wasmtime-v${WASMTIME_C_VERSION}-x86_64-linux-c-api.tar.xz

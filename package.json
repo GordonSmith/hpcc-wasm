@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "description": "Wasm musings and experiments",
   "scripts": {
+    "configure": "cmake -S . -B ./build",
+    "build": "cmake --build ./build --parallel",
+    "clean": "rimraf ./build/CMakeCache.txt ./build/CMakeFiles",
     "install": "./scripts/install.sh",
-    "uninstall": "rm -rf ./emsdk ./javy ./wasi-sdk-* ./wasmtime ./wit-bindgen"
+    "uninstall": "rimraf ./emsdk ./javy ./wasi-sdk-* ./wasmtime ./wit-bindgen"
   },
   "devDependencies": {
     "rimraf": "^5.0.1"

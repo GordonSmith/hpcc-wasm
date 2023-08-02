@@ -16,16 +16,16 @@ set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostartfiles -fno-exceptions --sysroot=${WASI_SDK_PREFIX}/share/wasi-sysroot -Wl,--no-entry")
 
 include_directories(
-    ${HPCC_WASM_ROOT}/build/guest/cpp
+    ${HPCC_WASM_ROOT}/build/guest/test/cpp
 )
 
 add_executable(add
     main.cpp
-    ${HPCC_WASM_ROOT}/build/guest/cpp/wit/test.c
+    ${HPCC_WASM_ROOT}/build/guest/test/cpp/test.c
 )
 
 target_link_libraries(add
-    ${HPCC_WASM_ROOT}/build/guest/cpp/wit/test_component_type.o
+    ${HPCC_WASM_ROOT}/build/guest/test/cpp/test_component_type.o
 )
 
 # add_custom_command(

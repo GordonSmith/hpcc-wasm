@@ -1,0 +1,7 @@
+package hpcc-wasm:edge
+
+world edge {
+  import print: func(msg: string)
+
+  export sieve: func(n: u32)
+}

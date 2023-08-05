@@ -1,14 +1,14 @@
 {
   "targets": {
     "debug": {
-      "outFile": "build/debug.wasm",
-      "textFile": "build/debug.wat",
+      "outFile": "../../build/guest/assemblyscript/build/debug.wasm",
+      "textFile": "../../build/guest/assemblyscript/build/debug.wat",
       "sourceMap": true,
       "debug": true
     },
     "release": {
-      "outFile": "build/release.wasm",
-      "textFile": "build/release.wat",
+      "outFile": "../../build/guest/assemblyscript/build/release.wasm",
+      "textFile": "../../build/guest/assemblyscript/build/release.wat",
       "sourceMap": true,
       "optimizeLevel": 3,
       "shrinkLevel": 0,

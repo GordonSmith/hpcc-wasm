@@ -1,15 +1,17 @@
-project(componentize-js)
+project(fastly-ts)
 
 set (SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/index.js
-    ${CMAKE_CURRENT_SOURCE_DIR}/util/componentize.mjs
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/client/index.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/server/index.ts
 )
 
 set (OUTPUTS
-    ${CMAKE_CURRENT_BINARY_DIR}/test.component.wasm
+    ${CMAKE_CURRENT_SOURCE_DIR}/dist/index.js
+    ${CMAKE_CURRENT_SOURCE_DIR}/dist/index.css
+    ${CMAKE_CURRENT_SOURCE_DIR}/bin/main.wasm
 )
 
-npm_project(componentize-js ${SRCS} ${OUTPUTS})
+npm_project(fastly-js ${SRCS} ${OUTPUTS})
 
 # add_custom_command (
 #     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/no.file

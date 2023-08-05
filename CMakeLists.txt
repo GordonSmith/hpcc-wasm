@@ -25,5 +25,41 @@ if (NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+function(npm_project NAME SRCS OUTPUTS)
+
+    add_custom_command (
+        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/no.file
+        COMMAND npm run clean
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    add_custom_target(${NAME}-clean
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/no.file
+    )
+
+    add_custom_command (
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/.tmp/package-lock.json
+        COMMAND npm install && ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/package-lock.json ${CMAKE_CURRENT_BINARY_DIR}/.tmp/package-lock.json
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/package.json
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    add_custom_target(${NAME}-fetchdeps
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/.tmp/package-lock.json
+    )
+
+    add_custom_command (OUTPUT ${OUTPUTS}
+        COMMAND npm run build
+        DEPENDS ${SRCS}
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/.tmp/package-lock.json
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    add_custom_target (${NAME}-build ALL 
+        DEPENDS ${OUTPUTS}
+    )
+endfunction()
+
 add_subdirectory(guest)
 add_subdirectory(host)
+add_subdirectory(fastly)

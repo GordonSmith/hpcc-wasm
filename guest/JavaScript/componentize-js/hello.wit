@@ -1,3 +1,0 @@
-default world hello {
-  export hello: func(name: string) -> string
-}

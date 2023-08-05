@@ -3,13 +3,18 @@
   "version": "0.0.0",
   "description": "Wasm musings and experiments",
   "scripts": {
-    "configure": "cmake -S . -B ./build",
-    "build": "cmake --build ./build --parallel",
-    "clean": "rimraf ./build",
+    "configure": "cmake -S . -B ./build -G Ninja",
+    "build-root": "cmake --build ./build --parallel",
+    "build-fastly": "npm run --prefix fastly/typescript clean",
+    "build": "run-p build-root build-fastly",
+    "clean-fastly": "npm run --prefix fastly/typescript clean",
+    "clean-root": "rimraf ./build",
+    "clean": "run-p clean-root clean-fastly",
     "install": "./scripts/install.sh",
     "uninstall": "rimraf ./emsdk ./javy ./wasi-sdk-* ./wasmtime ./wit-bindgen"
   },
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "rimraf": "^5.0.1"
   }
 }

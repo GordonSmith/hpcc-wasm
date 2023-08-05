@@ -1,6 +1,6 @@
-const char *const wasmFile1 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.core.wasm";
+const char *const wasmFile1 = "/home/gordon/hpcc-wasm/build/guest/javascript/componentize-js/hello.core.wasm";
 const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
-const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.wasm";
+const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/javascript/componentize-js/hello.wasm";
 
 #include "wasm_export.h"
 

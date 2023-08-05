@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Edge Demo</title>
+  <link rel="stylesheet" type="text/css" href="./dist/index.css">
+  <style>
+    body {
+      padding: 0px;
+      margin: 8px;
+      background: white;
+      color: black;
+      overflow-x: hidden;
+    }
+
+    #placeholder,
+    .placeholder {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      right: 8px;
+      bottom: 8px;
+      max-width: 480px;
+    }
+  </style>
+  <link rel="icon" href="https://hpccsystems.com/favicon-32x32.png" type="image/png" />
+</head>
+
+<body>
+  <div id="placeholder">
+  </div>
+
+  <script type="module">
+    import { main } from "./dist/index.js";
+
+    main(document.getElementById('placeholder'));
+  </script>
+
+</body>
+
+</html>

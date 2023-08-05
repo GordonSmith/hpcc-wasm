@@ -1,7 +1,7 @@
-const char *const wasmFile1 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/componentize-js/hello.core.wasm";
-const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
-const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/AssemblyScript/build/release.wasm";
-const char *const wasmFile4 = "/home/gordon/hpcc-wasm/build/guest/JavaScript/Javy/build/index.wasm";
+const char *const wasmFile = "/home/gordon/hpcc-wasm/build/guest/javascript/componentize-js/test.core.wasm";
+const char *const wasmFile2 = "/home/gordon/hpcc-wasm/build/guest/cpp/bin/add.wasm";
+const char *const wasmFile3 = "/home/gordon/hpcc-wasm/build/guest/assemblyscript/build/release.wasm";
+const char *const wasmFile4 = "/home/gordon/hpcc-wasm/build/guest/javascript/javy/build/index.wasm";
 
 #include <fstream>
 #include <iostream>
@@ -12,6 +12,7 @@ using namespace wasmtime;
 
 std::vector<uint8_t> read_wasm_binary_to_buffer(const std::string &filename)
 {
+    printf("loading: %s\n", filename.c_str());
     std::ifstream file(filename, std::ios::binary | std::ios::ate);
     if (!file)
     {

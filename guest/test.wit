@@ -8,7 +8,7 @@ interface iterator {
   next: func() -> row
 }
 */
-package xxx:test
+package hpcc-wasm:test
 
 world test {
   import print: func(msg: string)

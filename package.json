@@ -4,12 +4,12 @@
   "description": "Wasm musings and experiments",
   "scripts": {
     "configure": "cmake -S . -B ./build -G Ninja",
+    "build-fastly": "npm run --prefix fastly/typescript build",
     "build-root": "cmake --build ./build --parallel",
-    "build-fastly": "npm run --prefix fastly/typescript clean",
-    "build": "run-p build-root build-fastly",
+    "build": "run-p build-root",
     "clean-fastly": "npm run --prefix fastly/typescript clean",
     "clean-root": "rimraf ./build",
-    "clean": "run-p clean-root clean-fastly",
+    "clean": "run-p clean-root",
     "install": "./scripts/install.sh",
     "uninstall": "rimraf ./emsdk ./javy ./wasi-sdk-* ./wasmtime ./wit-bindgen"
   },

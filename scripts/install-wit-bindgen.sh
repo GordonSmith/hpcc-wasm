@@ -3,6 +3,9 @@
 # List of current vertsion can be found in https://github.com/bytecodealliance/wit-bindgen/releases  ---
 VERSION=0.9.0
 
+# List of current vertsion can be found in https://github.com/bytecodealliance/wit-bindgen/releases  ---
+VERSION=0.9.0
+
 if [ ! -d "./wit-bindgen" ] 
 then
     mkdir wit-bindgen

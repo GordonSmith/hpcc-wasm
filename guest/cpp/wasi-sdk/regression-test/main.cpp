@@ -68,3 +68,13 @@ void hpcc_scalar_test_string_test(hpcc_scalar_test_string_t *a, hpcc_scalar_test
     dbglog(std::to_string(++tally) + ":  " + r);
     hpcc_scalar_test_string_dup(ret, r.c_str());
 }
+
+void hpcc_scalar_test_list_bool_test(hpcc_scalar_test_list_bool_t *a, hpcc_scalar_test_list_bool_t *ret)
+{
+    ret->ptr = static_cast<bool *>(malloc(a->len * sizeof(bool)));
+    ret->len = a->len;
+    for (size_t i = 0; i < a->len; ++i)
+    {
+        ret->ptr[i] = a->ptr[a->len - 1 - i];
+    }
+}

@@ -1,0 +1,17 @@
+# This file describes a Fastly Compute@Edge package. To learn more visit:
+# https://developer.fastly.com/reference/fastly-toml/
+
+authors = ["GordonJSmith@gmail.com"]
+description = ""
+language = "javascript"
+manifest_version = 3
+name = "fastly-ts"
+service_id = "LL4Psw7kEvdWPmhE4RuNf5"
+
+[scripts]
+  build = "npm run build"
+
+[local_server]
+  [local_server.backends]
+    [local_server.backends.github]
+      url = "https://api.github.com"

@@ -1,0 +1,39 @@
+{
+  "name": "compute-starter-kit-typescript",
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "bundle-client": "npx -y esbuild  --bundle --platform=browser --format=esm --outdir=./dist ./client/index.ts",
+    "test-bundle-umd": "npx -y esbuild --platform=node --bundle ./dist/base91.umd.js --outdir=tmp",
+    "test-bundle-node": "npx -y esbuild --platform=node --bundle ./dist/base91.js --outdir=tmp",
+    "prebuild": "npm run bundle-client && tsc",
+    "build": "js-compute-runtime build/index.js bin/main.wasm",
+    "serve": "fastly compute serve --watch",
+    "deploy": "fastly compute publish"
+  },
+  "engines": {
+    "node": "16 || >=18"
+  },
+  "dependencies": {
+    "@fastly/js-compute": "2.5.0",
+    "@octokit/core": "4.2.4",
+    "langchain": "0.0.109",
+    "typeorm": "0.3.17"
+  },
+  "devDependencies": {
+    "@hpcc-js/observablehq-compiler": "1.2.6",
+    "@observablehq/runtime": "^5.8.2",
+    "esbuild": "0.18.17",
+    "typescript": "5.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastly/compute-starter-kit-typescript.git"
+  },
+  "author": "oss@fastly.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fastly/compute-starter-kit-typescript/issues"
+  },
+  "homepage": "https://developer.fastly.com/solutions/starters/compute-starter-kit-typescript"
+}

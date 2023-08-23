@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "bundle-client": "npx -y esbuild  --bundle --platform=browser --format=esm --outdir=./dist ./client/index.ts",
+    "bundle-client": "npx -y esbuild  --bundle --platform=browser --format=esm --outdir=./dist ./client/index.tsx",
     "test-bundle-umd": "npx -y esbuild --platform=node --bundle ./dist/base91.umd.js --outdir=tmp",
     "test-bundle-node": "npx -y esbuild --platform=node --bundle ./dist/base91.js --outdir=tmp",
     "prebuild": "npm run bundle-client && tsc",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@fastly/js-compute": "2.5.0",
+    "@fluentui/react-components": "9.29.4",
     "@octokit/core": "4.2.4",
     "langchain": "0.0.109",
     "typeorm": "0.3.17"

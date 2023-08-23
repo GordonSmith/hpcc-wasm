@@ -70,7 +70,7 @@ fn main(req: Request) -> Result<Response, Error> {
         "/index.html" => {
             Ok(Response::from_status(StatusCode::OK)
             .with_content_type(mime::TEXT_HTML_UTF_8)
-            .with_body(include_str!("../index.html"))),
+            .with_body(include_str!("../index.html")))
         }
 
         "/dist/index.js" => {

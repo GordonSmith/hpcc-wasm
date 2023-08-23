@@ -1,3 +1,5 @@
+add_subdirectory(native)
+
 include(ExternalProject)
 
 set(WASI_SDK_PREFIX ${HPCC_WASM_ROOT}/wasi-sdk-20.0)

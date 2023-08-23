@@ -16,4 +16,6 @@ project(wasi-sdk)
 # set(VCPKG_SHARE_DIR ${VCPKG_INSTALLED_DIR}/share)
 
 add_subdirectory(add)
+add_subdirectory(sieve)
+add_subdirectory(spin)
 add_subdirectory(regression-test)

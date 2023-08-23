@@ -1,0 +1,49 @@
+project(spin-test)
+
+# add_definitions(-D_WASI_EMULATED_SIGNAL)
+# add_link_options(-lwasi-emulated-signal)
+
+# set(CMAKE_TOOLCHAIN_FILE "${WASI_SDK_PREFIX}/share/cmake/wasi-sdk.cmake")
+# set(CMAKE_SYSROOT "${WASI_SDK_PREFIX}/share/wasi-sysroot")
+
+set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
+set(CMAKE_SHARED_LIBRARY_SUFFIX ".wasm")
+
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostartfiles -fno-exceptions --sysroot=${WASI_SDK_PREFIX}/share/wasi-sysroot")
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-entry -Wl,--export-all")
+
+set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mexec-model=reactor -fno-exceptions --sysroot=${WASI_SDK_PREFIX}/share/wasi-sysroot")
+
+include_directories(
+    ${HPCC_WASM_ROOT}/build/guest/wit/spin/reactor/cpp
+)
+
+add_executable(spin-test
+    ${HPCC_WASM_ROOT}/build/guest/wit/spin/reactor/cpp/http_trigger.c
+    main.cpp
+)
+
+target_link_libraries(spin-test
+    ${HPCC_WASM_ROOT}/build/guest/wit/spin/reactor/cpp/http_trigger_component_type.o
+)
+
+# add_custom_command(
+#     TARGET spin-test POST_BUILD
+#     COMMAND wasm-tools component new ${CMAKE_CURRENT_BINARY_DIR}/spin-test.wasm -o ${HPCC_WASM_ROOT}/build/guest/cpp/bin/spin-test.component.wasm --adapt wasi_snapshot_preview1=${HPCC_WASM_ROOT}/wit-bindgen/wasi_preview1_component_adapter.reactor.wasm
+#     # COMMAND npx jco transpile ${CMAKE_CURRENT_BINARY_DIR}/test.component.wasm -o ${CMAKE_CURRENT_BINARY_DIR}/js --wasi-shim --map wasi-*=@bytecodealliance/preview2-shim/* --map print=../../../../src-components/test/logger.js 
+# )
+# set_property(SOURCE main.cpp APPEND PROPERTY OBJECT_DEPENDS ${HPCC_WASM_ROOT}/build/guest/cpp/wit/test.c)
+
+# Install the target and export the target information
+install(TARGETS spin-test
+    EXPORT addConfig
+    RUNTIME DESTINATION bin
+)
+
+# Export the target information to a file
+install(EXPORT addConfig
+    FILE addConfig.cmake
+    NAMESPACE spin-test::
+    DESTINATION lib/cmake/spin-test
+)

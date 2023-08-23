@@ -14,6 +14,8 @@ endfunction()
 wit2code(test)
 wit2code(edge)
 
+add_subdirectory(wit)
+
 add_subdirectory(assemblyscript)
 add_subdirectory(cpp)
 add_subdirectory(javascript)

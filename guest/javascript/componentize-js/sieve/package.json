@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@bytecodealliance/jco": "0.9.5",
+    "@bytecodealliance/componentize-js": "0.1.0"
+  },
+  "scripts": {
+    "clean": "",
+    "transform": "jco transpile ./hello.component.wasm -o ./tmp",
+    "build": "node ./util/componentize.mjs",
+    "test": "./target/release/wasmtime-test"
+  }
+}

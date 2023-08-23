@@ -78,7 +78,10 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "strstream": "cpp",
+        "barrier": "cpp",
+        "shared_mutex": "cpp"
     },
     "ecl.launchConfiguration": "localhost",
     "ecl.targetCluster": {},

@@ -1,0 +1,16 @@
+{
+  "name": "docker-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker-build": "docker build --platform wasi/wasm --provenance=false -t docker.io/hpccjs/hello-docker-c:latest .",
+    "docker-run": "docker run -i --runtime=io.containerd.spin.v1 --platform=wasi/wasm -p 3000:80 docker.io/hpccjs/hello-docker-c:latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {}
+}

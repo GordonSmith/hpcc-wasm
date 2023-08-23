@@ -10,7 +10,7 @@ import { query } from "./sqlAgent";
 
 // Load a static file as a Uint8Array at compile time.
 // File path is relative to root of project, not to this file
-const welcomePage = includeBytes("./src/index.html");
+const welcomePage = includeBytes("./client/index.html");
 const welcomeLib = includeBytes("./dist/index.js");
 const welcomeCss = includeBytes("./dist/index.css");
 
@@ -90,7 +90,7 @@ async function handleRequest(event: FetchEvent) {
       headers: new Headers({ "Content-Type": "application/javascript; charset=utf-8" }),
     });
   } else if (url.pathname == "/dist/index.css") {
-    return new Response(welcomeLib, {
+    return new Response(welcomeCss, {
       status: 200,
       headers: new Headers({ "Content-Type": "text/css; charset=utf-8" }),
     });

@@ -1,12 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Button, FluentProvider, Select, webLightTheme } from '@fluentui/react-components';
-
+import { createRoot } from 'react-dom/client';
+import { FluentProvider, teamsDarkTheme, useThemeClassName, webDarkTheme } from '@fluentui/react-components';
 import { App } from './app';
 
-ReactDOM.render(
-  <FluentProvider theme={webLightTheme}>
+import './index.css';
+
+function ApplyToBody() {
+  const classes = useThemeClassName();
+
+  React.useEffect(() => {
+    const classList = classes.split(" ");
+    document.body.classList.add(...classList);
+
+    return () => document.body.classList.remove(...classList);
+  }, [classes]);
+
+  return null;
+}
+
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
+  <FluentProvider theme={teamsDarkTheme}>
+    <ApplyToBody />
     <App />
-  </FluentProvider>,
-  document.getElementById('root'),
+  </FluentProvider>
 );

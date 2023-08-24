@@ -8,7 +8,7 @@ export const App = (props: Partial<ToolbarProps>) => {
         <Toolbar aria-label="Default" {...props}>
             <ToolbarButton aria-label="Increase Font Size" icon={<GridDotsFilled />} />
             <ToolbarDivider />
-            <Title2 >Edge Computing</Title2>
+            <Title2>Edge Computing</Title2>
             <ToolbarDivider />
             <ToolbarButton aria-label="Increase Font Size" appearance="primary" icon={<FontIncrease24Regular />} />
             <ToolbarButton aria-label="Decrease Font Size" icon={<FontDecrease24Regular />} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { FluentProvider, teamsDarkTheme, useThemeClassName, webDarkTheme } from '@fluentui/react-components';
+import { FluentProvider, teamsDarkTheme, useThemeClassName, webDarkTheme, webLightTheme } from '@fluentui/react-components';
 import { App } from './app';
 
 import './index.css';
@@ -21,8 +21,10 @@ function ApplyToBody() {
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
-  <FluentProvider theme={teamsDarkTheme}>
+  <FluentProvider theme={webLightTheme}>
     <ApplyToBody />
     <App />
   </FluentProvider>
 );
+
+new EventSource('/esbuild').addEventListener('change', () => location.reload())

@@ -10,7 +10,7 @@ import { query } from "./sqlAgent";
 
 // Load a static file as a Uint8Array at compile time.
 // File path is relative to root of project, not to this file
-const welcomePage = includeBytes("./client/index.html");
+const welcomePage = includeBytes("./index.html");
 const welcomeLib = includeBytes("./dist/index.js");
 const welcomeCss = includeBytes("./dist/index.css");
 

@@ -1,15 +1,16 @@
 //! Default Compute@Edge template program.
 
 use fastly::http::{header, Method, StatusCode};
-use fastly::{mime, Error, Request, Response};
+use fastly::{mime, ConfigStore, Error, Request, Response};
+use serde_json::{json, Value};
 
-/// The entry point for your application.
-///
-/// This function is triggered when your service receives a client request. It could be used to
-/// route based on the request properties (such as method or path), send the request to a backend,
-/// make completely new requests, and/or generate synthetic responses.
-///
-/// If `main` returns an error, a 500 error response will be delivered to the client.
+fn get_content() -> Result<String, Error> {
+    let global = ConfigStore::open("global");
+    let gh_actor = global.get("gh_actor").unwrap();
+    let gh_token = global.get("gh_token").unwrap();
+
+    return Ok("xxx".to_lowercase());
+}
 
 #[fastly::main]
 fn main(req: Request) -> Result<Response, Error> {
@@ -67,33 +68,32 @@ fn main(req: Request) -> Result<Response, Error> {
                 .with_body(include_str!("../index.html")))
         }
 
-        "/index.html" => {
-            Ok(Response::from_status(StatusCode::OK)
+        "/index.html" => Ok(Response::from_status(StatusCode::OK)
             .with_content_type(mime::TEXT_HTML_UTF_8)
             .with_body(include_str!("../index.html")))
-        }
 
-        "/dist/index.js" => {
-            Ok(Response::from_status(StatusCode::OK)
+        "/dist/index.js" => Ok(Response::from_status(StatusCode::OK)
             .with_content_type(mime::TEXT_JAVASCRIPT)
-            .with_body(include_str!("../dist/index.js")))
-        }
+            .with_body(include_str!("../dist/index.js"))),
 
-        "/dist/index.css" => {
-            Ok(Response::from_status(StatusCode::OK)
+        "/dist/index.css" => Ok(Response::from_status(StatusCode::OK)
             .with_content_type(mime::TEXT_CSS_UTF_8)
-            .with_body(include_str!("../dist/index.css")))
-        }
+            .with_body(include_str!("../dist/index.css"))),
 
         "/esbuild" => {
+            Ok(Response::from_status(StatusCode::OK).with_content_type(mime::TEXT_PLAIN_UTF_8))
+        }
+
+        "/test" => {
+            let result = get_content();
+
             Ok(Response::from_status(StatusCode::OK)
-            .with_content_type(mime::TEXT_PLAIN_UTF_8))
+                .with_content_type(mime::TEXT_PLAIN_UTF_8)
+                .with_body(format!("{:?}", result)))
         }
 
         // Catch all other requests and return a 404.
-        _ => {
-            Ok(Response::from_status(StatusCode::NOT_FOUND)
-            .with_body_text_plain("The page you requested could not be found\n"))
-        }
+        _ => Ok(Response::from_status(StatusCode::NOT_FOUND)
+            .with_body_text_plain("The page you requested could not be found\n")),
     }
 }

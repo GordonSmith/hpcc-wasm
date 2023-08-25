@@ -20,3 +20,12 @@ service_id = "3qrkLJZMrQHWn5b6n6c8n6"
 
     [local_server.backends.play]
       url = "https://play.hpccsystems.com:18010"
+
+  [local_server.config_stores]
+
+    [local_server.config_stores.global]
+      format = "inline-toml"
+
+      [local_server.config_stores.global.contents]
+        gh_actor = "GordonSmith"
+        gh_token = "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"

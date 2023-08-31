@@ -7,3 +7,7 @@ export function add(a: i32, b: i32): i32 {
 export function sub(a: i32, b: i32): i32 {
   return a - b;
 }
+
+export function test(): void {
+  console.log("hello world");
+}

@@ -1,28 +1,67 @@
 import * as React from "react";
-import { FontIncrease24Regular, FontDecrease24Regular, TextFont24Regular, MoreHorizontal24Filled, GridDotsFilled, HomeFilled } from "@fluentui/react-icons";
-import { Toolbar, ToolbarButton, ToolbarDivider, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, MenuItemLink, Title2, MenuButton, TabList, Tab, Persona, makeStyles, ToolbarGroup, } from "@fluentui/react-components";
-import type { ToolbarProps } from "@fluentui/react-components";
+import { MoreHorizontal24Filled, GridDotsFilled, HomeFilled } from "@fluentui/react-icons";
+import { Toolbar, ToolbarButton, ToolbarDivider, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, MenuItemLink, Title2, MenuButton, TabList, Tab, Persona, makeStyles, ToolbarGroup, shorthands, LargeTitle, } from "@fluentui/react-components";
+import type { SelectTabData, SelectTabEvent, TabValue, ToolbarProps } from "@fluentui/react-components";
 import { GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
+
+const Placeholder = React.memo(() => (
+    <div>
+        <LargeTitle>...placeholder...</LargeTitle>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+    </div>
+));
 
 const useStyles = makeStyles({
     toolbar: {
         justifyContent: "space-between",
     },
-    title2: {
+    title: {
         verticalAlign: 'middle',
         fontWeight: "bold"
+    },
+    main: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        width: 'auto',
+        height: 'auto',
+        boxSizing: 'border-box',
+        '> *': {
+            textOverflow: 'ellipsis',
+        },
+        '> :not(:first-child)': {
+            marginTop: '0px',
+        },
+        '> *:not(.ms-StackItem)': {
+            flexShrink: 1,
+        },
+    },
+    panels: {
+        ...shorthands.padding(0, "10px"),
+        "& th": {
+            textAlign: "left",
+            ...shorthands.padding(0, "30px", 0, 0),
+        },
     },
 });
 
 export const App = (props: Partial<ToolbarProps>) => {
 
-    const farGroupStyles = useStyles();
+    const [selectedValue, setSelectedValue] = React.useState<TabValue>("tab1");
+
+    const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
+        setSelectedValue(data.value);
+    };
+
+    const styles = useStyles();
+
     return <>
-        <Toolbar aria-label="Default" {...props} className={farGroupStyles.toolbar}>
+        <Toolbar aria-label="Default" {...props} className={styles.toolbar}>
             <ToolbarGroup role="presentation" >
                 <ToolbarButton aria-label="Increase Font Size" icon={<GridDotsFilled />} />
                 <ToolbarDivider style={{ display: "inline-flex" }} />
-                <Title2 className={farGroupStyles.title2}>Edge Computing</Title2>
+                <Title2 className={styles.title}>Edge Computing</Title2>
                 {/* <ToolbarDivider style={{ display: "inline-flex" }} /> */}
             </ToolbarGroup>
             <ToolbarGroup role="presentation">
@@ -46,11 +85,16 @@ export const App = (props: Partial<ToolbarProps>) => {
                 </Menu>
             </ToolbarGroup>
         </Toolbar>
-        <TabList defaultSelectedValue="tab1" vertical size="large">
-            <Tab value="tab1" title="Home" icon={<HomeFilled />}></Tab>
-            <Tab value="tab2" icon={<FontIncrease24Regular />}></Tab>
+        <div className={styles.main}>
+            <TabList defaultSelectedValue="tab1" selectedValue={selectedValue} onTabSelect={onTabSelect} vertical size="large">
+                <Tab value="tab1" title="Home" icon={<HomeFilled />}></Tab>
+                {/* <Tab value="tab2" icon={<FontIncrease24Regular />}></Tab>
             <Tab value="tab3" icon={<MoreHorizontal24Filled />}></Tab>
-            <Tab value="tab4" icon={<GridDotsFilled />}></Tab>
-        </TabList>
+            <Tab value="tab4" icon={<GridDotsFilled />}></Tab> */}
+            </TabList>
+            <div className={styles.panels}>
+                {selectedValue === "tab1" && <Placeholder />}
+            </div>
+        </div>
     </>;
 }

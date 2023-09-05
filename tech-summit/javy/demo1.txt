@@ -1,0 +1,4 @@
+export REPO_DIR=/home/gordon/hpcc-wasm && npm run clean && npm run build && clear
+hyperfine "node ./src/index.js" --warmup 1
+hyperfine "wasmtime ./dist/test.module.wasm" --warmup 1
+du -h ./dist/test.module.wasm

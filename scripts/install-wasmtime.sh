@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # List of current vertsion can be found in https://github.com/bytecodealliance/wasmtime/releases  ---
-WASMTIME_C_VERSION=11.0.1
+WASMTIME_C_VERSION=12.0.1
 
 # List of current vertsion can be found in https://github.com/bytecodealliance/wasmtime-cpp/tags
 WASMTIME_CPP_VERSION=9.0.0

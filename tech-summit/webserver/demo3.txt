@@ -1,0 +1,13 @@
+clear
+curl localhost:3010/random
+curl localhost:3010/random
+curl localhost:3010/random
+curl localhost:3010/random
+curl localhost:3000/random
+curl localhost:3000/random
+curl localhost:3000/random
+curl localhost:3000/random
+curl localhost:3020/random
+curl localhost:3020/random
+curl localhost:3020/random
+curl localhost:3020/random

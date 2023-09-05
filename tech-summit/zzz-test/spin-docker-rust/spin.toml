@@ -1,0 +1,16 @@
+spin_manifest_version = "1"
+authors = ["Gordon Smith <GordonJSmith@gmail.com>"]
+description = ""
+name = "spin-docker-rust"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[[component]]
+id = "spin-docker-rust"
+source = "target/wasm32-wasi/release/spin_docker_rust.wasm"
+allowed_http_hosts = []
+[component.trigger]
+route = "/..."
+[component.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]

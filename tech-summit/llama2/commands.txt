@@ -1,0 +1,6 @@
+export REPO_DIR=/home/gordon/hpcc-wasm && npm run clean && clear
+cmake -B ./build -S . -DCMAKE_BUILD_TYPE=Release && cmake --build ./build 
+./build/llama2 stories42M.bin -i "Gordon lost his keys"
+cmake -B ./build-wasm -S . -DCMAKE_BUILD_TYPE=Release -DWASI_SDK_PREFIX=$REPO_DIR/wasi-sdk-20.0 -DCMAKE_TOOLCHAIN_FILE=$REPO_DIR/wasi-sdk-20.0/share/cmake/wasi-sdk.cmake && cmake --build ./build-wasm
+wasmtime ./build-wasm/llama2.wasm stories42M.bin -i "Gordon lost his keys"
+wasmtime --dir . ./build-wasm/llama2.wasm stories42M.bin -i "Gordon lost his keys"

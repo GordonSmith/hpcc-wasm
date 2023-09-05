@@ -1,0 +1,22 @@
+{
+  "name": "spin-docker-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack --mode=production && mkdir -p target && spin js2wasm -o target/spin-docker-js.wasm dist/spin.js",
+    "docker-build": "docker build --platform wasi/wasm --provenance=false -t docker.io/hpccjs/spin-ts:latest .",
+    "docker-run": "docker run -i --runtime=io.containerd.spin.v1 --platform=wasi/wasm -p 3000:80 docker.io/hpccjs/spin-ts:latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@fermyon/spin-sdk": "^0.4.0"
+  }
+}

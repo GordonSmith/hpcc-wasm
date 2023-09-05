@@ -1,0 +1,14 @@
+{
+  "name": "spin-docker-c",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "docker-build": "docker build --platform wasi/wasm --provenance=false -t docker.io/hpccjs/spin-docker-python:latest .",
+    "docker-run": "docker run -i --runtime=io.containerd.spin.v1 --platform=wasi/wasm -p 3000:80 docker.io/hpccjs/spin-docker-python:latest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {}
+}

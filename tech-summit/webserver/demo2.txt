@@ -1,0 +1,4 @@
+clear
+ab -n 1000 -c 33 http://127.0.0.1:3000/random
+ab -n 1000 -c 33 http://127.0.0.1:3010/random
+ab -n 1000 -c 33 http://127.0.0.1:3020/random

@@ -1,0 +1,16 @@
+spin_manifest_version = "1"
+authors = ["Gordon Smith <GordonJSmith@gmail.com>"]
+description = ""
+name = "spin-docker-ts"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[[component]]
+id = "spin-docker-ts"
+source = "target/spin-docker-ts.wasm"
+exclude_files = ["**/node_modules"]
+[component.trigger]
+route = "/..."
+[component.build]
+command = "npm run build-spin"
+watch = ["src/*.*", "spin.toml"]

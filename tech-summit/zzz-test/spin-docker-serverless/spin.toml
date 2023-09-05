@@ -1,0 +1,15 @@
+spin_manifest_version = "1"
+authors = ["Gordon Smith <GordonJSmith@gmail.com>"]
+description = ""
+name = "spin-docker-serverless"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[[component]]
+id = "spin-docker-serverless"
+source = "target/spin-docker-serverless.wasm"
+exclude_files = ["**/node_modules"]
+[component.trigger]
+route = "/..."
+[component.build]
+command = "npm run build"

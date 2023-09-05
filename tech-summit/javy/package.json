@@ -1,0 +1,25 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf dist out",
+    "build-componentize-js": "node ./util/componentize.mjs",
+    "jco": "npx jco transpile ./dist/test.component.wasm -o out --base64-cutoff=0",
+    "build-javy": "../../javy/javy compile ./src/index.js --wit wit/test.wit -n index-world -o dist/test.module.wasm",
+    "build-shared": "../../javy/javy compile ./src/index.js -d -o ./build/index-shared.wasm ./src/index.js && ../../javy/javy emit-provider -o ./build/provider.wasm",
+    "build": "mkdir -p ./dist && npm run build-javy",
+    "test-full": "echo '{ \"n\": 2, \"bar\": \"baz\" }' | wasmtime ./build/index.wasm",
+    "test-shared": "echo '{ \"n\": 2, \"bar\": \"baz\" }' | wasmtime --preload javy_quickjs_provider_v1=./build/provider.wasm ./build/index-shared.wasm",
+    "test": "npm run test-full && npm run test-shared"
+  },
+  "devDependencies": {
+    "@bytecodealliance/jco": "0.11.0",
+    "@bytecodealliance/componentize-js": "0.2.0",
+    "rimraf": "5.0.0"
+  },
+  "author": "",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,17 @@
+spin_manifest_version = "1"
+authors = ["Gordon Smith <GordonJSmith@gmail.com>"]
+description = ""
+name = "spin-docker-php"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[[component]]
+id = "spin-docker-php"
+files = [ { source = "./src", destination = "/" } ]
+allowed_http_hosts = []
+[component.source]
+url = "https://github.com/vmware-labs/webassembly-language-runtimes/releases/download/php%2F7.4.32%2B20221124-2159d1c/php-cgi-7.4.32.speed-optimized.wasm"
+digest = "sha256:511720698dee56134ed8a08a87131d33c3ea8a64b6726cd6710d624bca4ceb6c"
+[component.trigger]
+executor = { type = "wagi"}
+route = "/..."

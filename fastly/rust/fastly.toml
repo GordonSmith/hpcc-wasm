@@ -1,0 +1,9 @@
+# This file describes a Fastly Compute@Edge package. To learn more visit:
+# https://developer.fastly.com/reference/fastly-toml/
+
+authors = ["GordonJSmith@gmail.com"]
+description = ""
+language = "rust"
+manifest_version = 3
+name = "tech-summit"
+service_id = ""

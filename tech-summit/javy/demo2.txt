@@ -1,0 +1,7 @@
+export REPO_DIR=/home/gordon/hpcc-wasm && npm run clean && ./build.sh && cmake --build ./build  && clear
+docker build -f ./native.dockerfile -t docker.io/hpccjs/llama2:latest .
+
+time docker run -i --rm -v $(pwd):/wf docker.io/hpccjs/llama2:latest stories42M.bin
+
+time wasmtime --dir . ./build-wasm/llama2.wasm stories42M.bin -i "Gordon lost his keys"
+

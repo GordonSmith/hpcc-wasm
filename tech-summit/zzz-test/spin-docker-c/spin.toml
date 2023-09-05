@@ -1,0 +1,17 @@
+spin_manifest_version = "1"
+authors = ["Gordon Smith <GordonJSmith@gmail.com>"]
+description = ""
+name = "spin-docker-c"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[[component]]
+id = "spin-docker-c"
+source = "main.wasm"
+allowed_http_hosts = []
+[component.trigger]
+route = "/..."
+executor = { type = "wagi" }
+[component.build]
+command = "zig build-exe -O ReleaseSmall -target wasm32-wasi main.c -lc"
+watch = ["**/*.c"]

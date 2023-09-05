@@ -1,0 +1,8 @@
+export REPO_DIR=/home/gordon/hpcc-wasm && npm run clean && clear
+npm run build
+npm run build-docker
+npm run start
+docker build -f express.dockerfile -t hpccjs/express-docker-ts:latest .
+npm run build-spin
+docker build --platform wasi/wasm --provenance=false -f spin.dockerfile -t hpccjs/spin-docker-ts:latest .
+npm run start

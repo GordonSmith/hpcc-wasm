@@ -1,0 +1,42 @@
+{
+  "name": "spin-docker-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf .spin dist target",
+    "-": "-----------------------------------------------------",
+    "build-express": "npx -y esbuild --bundle --platform=node --format=iife --global-name=express --outdir=./dist ./src/express.ts",
+    "build-express-docker": "docker build -f express.dockerfile -t hpccjs/express-docker-ts:latest .",
+    "start-express-docker": "docker run -it --rm -p 3010:3000 hpccjs/express-docker-ts:latest",
+    "stress-express-docker": "ab -n 1000 -c 10 http://127.0.0.1:3010/random",
+    "--": "-----------------------------------------------------",
+    "build-spin-src": "npx -y esbuild --bundle --platform=neutral --format=iife --global-name=spin --outdir=./dist ./src/spin.ts",
+    "build-spin-wasm": "mkdir -p target && spin js2wasm -o target/spin-docker-ts.wasm dist/spin.js",
+    "build-spin": "run-s build-spin-src build-spin-wasm",
+    "build-spin-docker": "docker build --platform wasi/wasm --provenance=false -f spin.dockerfile -t hpccjs/spin-docker-ts:latest .",
+    "start-spin": "spin up",
+    "stress-spin": "ab -n 1000 -c 10 http://127.0.0.1:3000/random",
+    "start-spin-docker": "docker run -i --rm --runtime=io.containerd.spin.v1 --platform=wasi/wasm -p 3020:80 hpccjs/spin-docker-ts:latest",
+    "stress-spin-docker": "ab -n 1000 -c 10 http://127.0.0.1:3020/random",
+    "---": "-----------------------------------------------------",
+    "stress-fastly": "ab -n 1000 -c 10 https://tech-summit.edgecompute.app/",
+    "build": "run-p build-express build-spin",
+    "build-docker": "run-p build-express-docker build-spin-docker",
+    "start": "run-p start-express-docker start-spin-docker start-spin",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "0.19.2",
+    "npm-run-all": "4.1.5",
+    "ts-loader": "9.4.4",
+    "typescript": "5.2.2"
+  },
+  "dependencies": {
+    "@fermyon/spin-sdk": "0.4.0",
+    "express": "4.18.2"
+  }
+}

@@ -1,4 +1,6 @@
 build/
+build-wasm/
+dist/
 lib/
 node_modules/
 /emsdk/
@@ -8,6 +10,8 @@ node_modules/
 /wasmtime/
 /wit-bindgen/
 /host/cpp/wamr/vmlib/wasm-micro-framework/
-/slight/spidey/main.wasm
+/spin copy
 
 .vscode/c_cpp_properties.json
+*.wasm
+*.cwasm

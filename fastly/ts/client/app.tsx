@@ -12,39 +12,72 @@ const Placeholder = React.memo(() => (
     </div>
 ));
 
-const useStyles = makeStyles({
+// const useStyles = makeStyles({
+//     toolbar: {
+//         justifyContent: "space-between",
+//     },
+//     title: {
+//         verticalAlign: 'middle',
+//         fontWeight: "bold"
+//     },
+//     main: {
+//         display: 'flex',
+//         flexDirection: 'row',
+//         flexWrap: 'nowrap',
+//         width: 'auto',
+//         height: 'auto',
+//         boxSizing: 'border-box',
+//         '> *': {
+//             textOverflow: 'ellipsis',
+//         },
+//         '> :not(:first-child)': {
+//             marginTop: '0px',
+//         },
+//         '> *:not(.ms-StackItem)': {
+//             flexShrink: 1,
+//         },
+//     },
+//     panels: {
+//         ...shorthands.padding(0, "10px"),
+//         "& th": {
+//             textAlign: "left",
+//             ...shorthands.padding(0, "30px", 0, 0),
+//         },
+//     },
+// });
+
+export const useStyles = makeStyles({
     toolbar: {
         justifyContent: "space-between",
     },
-    title: {
+    toolbarTitle: {
         verticalAlign: 'middle',
         fontWeight: "bold"
     },
-    main: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        width: 'auto',
-        height: 'auto',
-        boxSizing: 'border-box',
-        '> *': {
-            textOverflow: 'ellipsis',
-        },
-        '> :not(:first-child)': {
-            marginTop: '0px',
-        },
-        '> *:not(.ms-StackItem)': {
-            flexShrink: 1,
-        },
+    root: {
+        display: 'grid',
+        gridTemplateColumns: '250px auto',
+        gridTemplateRows: '40px auto',
+        minHeight: '100vh',
     },
-    panels: {
-        ...shorthands.padding(0, "10px"),
-        "& th": {
-            textAlign: "left",
-            ...shorthands.padding(0, "30px", 0, 0),
-        },
+    nav: {
+        gridColumnStart: 1,
+        gridColumnEnd: 3,
+    },
+    sidebar: {
+        gridRowStart: 1,
+        gridRowEnd: 2,
+        gridColumnStart: 1,
+        gridColumnEnd: 2,
+    },
+    content: {
+        gridRowStart: 2,
+        gridRowEnd: 3,
+        gridColumnStart: 2,
+        gridColumnEnd: 3,
     },
 });
+
 
 export const App = (props: Partial<ToolbarProps>) => {
 
@@ -61,7 +94,7 @@ export const App = (props: Partial<ToolbarProps>) => {
             <ToolbarGroup role="presentation" >
                 <ToolbarButton aria-label="Increase Font Size" icon={<GridDotsFilled />} />
                 <ToolbarDivider style={{ display: "inline-flex" }} />
-                <Title2 className={styles.title}>Edge Computing</Title2>
+                <Title2 className={styles.toolbarTitle}>Edge Computing</Title2>
                 {/* <ToolbarDivider style={{ display: "inline-flex" }} /> */}
             </ToolbarGroup>
             <ToolbarGroup role="presentation">
@@ -85,14 +118,13 @@ export const App = (props: Partial<ToolbarProps>) => {
                 </Menu>
             </ToolbarGroup>
         </Toolbar>
-        <div className={styles.main}>
-            <TabList defaultSelectedValue="tab1" selectedValue={selectedValue} onTabSelect={onTabSelect} vertical size="large">
-                <Tab value="tab1" title="Home" icon={<HomeFilled />}></Tab>
-                {/* <Tab value="tab2" icon={<FontIncrease24Regular />}></Tab>
-            <Tab value="tab3" icon={<MoreHorizontal24Filled />}></Tab>
-            <Tab value="tab4" icon={<GridDotsFilled />}></Tab> */}
+        <div className={styles.root}>
+            <TabList defaultSelectedValue="tab1" selectedValue={selectedValue} onTabSelect={onTabSelect} vertical size="large" className={styles.sidebar}>
+                <Tab value="tab1" title="Home" icon={<HomeFilled />}>Home</Tab>
+                <Tab value="tab3" icon={<MoreHorizontal24Filled />}>XXX</Tab>
+                <Tab value="tab4" icon={<GridDotsFilled />}>YYY</Tab>
             </TabList>
-            <div className={styles.panels}>
+            <div className={styles.content}>
                 {selectedValue === "tab1" && <Placeholder />}
             </div>
         </div>

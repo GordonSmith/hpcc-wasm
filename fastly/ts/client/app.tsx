@@ -1,52 +1,134 @@
 import * as React from "react";
 import { MoreHorizontal24Filled, GridDotsFilled, HomeFilled } from "@fluentui/react-icons";
-import { Toolbar, ToolbarButton, ToolbarDivider, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, MenuItemLink, Title2, MenuButton, TabList, Tab, Persona, makeStyles, ToolbarGroup, shorthands, LargeTitle, } from "@fluentui/react-components";
+import { Toolbar, ToolbarButton, ToolbarDivider, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, MenuItemLink, Title2, MenuButton, TabList, Tab, Persona, makeStyles, ToolbarGroup, shorthands, LargeTitle, makeStaticStyles, } from "@fluentui/react-components";
 import type { SelectTabData, SelectTabEvent, TabValue, ToolbarProps } from "@fluentui/react-components";
 import { GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
+import { Observable } from "./observable";
 
 const Placeholder = React.memo(() => (
     <div>
         <LargeTitle>...placeholder...</LargeTitle>
         <br></br>
         <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
+        <br></br>
+        <Title2>This site will go live on or before 29 Sept 2023</Title2>
     </div>
 ));
 
-// const useStyles = makeStyles({
-//     toolbar: {
-//         justifyContent: "space-between",
-//     },
-//     title: {
-//         verticalAlign: 'middle',
-//         fontWeight: "bold"
-//     },
-//     main: {
-//         display: 'flex',
-//         flexDirection: 'row',
-//         flexWrap: 'nowrap',
-//         width: 'auto',
-//         height: 'auto',
-//         boxSizing: 'border-box',
-//         '> *': {
-//             textOverflow: 'ellipsis',
-//         },
-//         '> :not(:first-child)': {
-//             marginTop: '0px',
-//         },
-//         '> *:not(.ms-StackItem)': {
-//             flexShrink: 1,
-//         },
-//     },
-//     panels: {
-//         ...shorthands.padding(0, "10px"),
-//         "& th": {
-//             textAlign: "left",
-//             ...shorthands.padding(0, "30px", 0, 0),
-//         },
-//     },
-// });
+const useStaticStyles = makeStaticStyles({
+    body: {
+        overflow: "hidden",
+        margin: "8px"
+    }
+});
 
-export const useStyles = makeStyles({
+const useClasses = makeStyles({
     toolbar: {
         justifyContent: "space-between",
     },
@@ -54,79 +136,95 @@ export const useStyles = makeStyles({
         verticalAlign: 'middle',
         fontWeight: "bold"
     },
-    root: {
-        display: 'grid',
-        gridTemplateColumns: '250px auto',
-        gridTemplateRows: '40px auto',
-        minHeight: '100vh',
+    container: {
+        display: "grid",
+        gridTemplateColumns: "minmax(min-content, auto) 3fr minmax(min-content, auto)",
+        gridTemplateRows: "auto 1fr auto",
+        gridTemplateAreas: `
+            "header header header"
+            "left main right"
+            "footer footer footer"
+        `,
+        height: "calc(100vh - 16px)",
+        alignContent: "start"
     },
-    nav: {
-        gridColumnStart: 1,
-        gridColumnEnd: 3,
+    header: {
+        ...shorthands.gridArea("header")
     },
-    sidebar: {
-        gridRowStart: 1,
-        gridRowEnd: 2,
-        gridColumnStart: 1,
-        gridColumnEnd: 2,
+    left: {
+        ...shorthands.gridArea("left")
     },
-    content: {
-        gridRowStart: 2,
-        gridRowEnd: 3,
-        gridColumnStart: 2,
-        gridColumnEnd: 3,
+    main: {
+        ...shorthands.gridArea("main"),
+        overflowY: "auto",
+        marginLeft: "16px",
+        marginTop: "16px"
     },
+    right: {
+        ...shorthands.gridArea("right")
+    },
+    footer: {
+        ...shorthands.gridArea("footer")
+    }
 });
-
 
 export const App = (props: Partial<ToolbarProps>) => {
 
-    const [selectedValue, setSelectedValue] = React.useState<TabValue>("tab1");
+    useStaticStyles();
+    const [selectedValue, setSelectedValue] = React.useState<TabValue>("home");
 
     const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
         setSelectedValue(data.value);
     };
 
-    const styles = useStyles();
+    const classes = useClasses();
 
-    return <>
-        <Toolbar aria-label="Default" {...props} className={styles.toolbar}>
-            <ToolbarGroup role="presentation" >
-                <ToolbarButton aria-label="Increase Font Size" icon={<GridDotsFilled />} />
-                <ToolbarDivider style={{ display: "inline-flex" }} />
-                <Title2 className={styles.toolbarTitle}>Edge Computing</Title2>
-                {/* <ToolbarDivider style={{ display: "inline-flex" }} /> */}
-            </ToolbarGroup>
-            <ToolbarGroup role="presentation">
-                <ToolbarButton as="a" href="https://github.com/GordonSmith/hpcc-wasm" target="_blank" icon={<GitHubLogoIcon />} />
-                <ToolbarDivider style={{ display: "inline-flex" }} />
-                <Menu>
-                    <MenuTrigger>
-                        <ToolbarButton aria-label="More" icon={<MoreHorizontal24Filled />} />
-                    </MenuTrigger>
+    return <div className={classes.container}>
+        <header className={classes.header}>
+            <Toolbar aria-label="Default" {...props} className={classes.toolbar}>
+                <ToolbarGroup role="presentation" >
+                    <ToolbarButton aria-label="Increase Font Size" icon={<GridDotsFilled />} />
+                    <ToolbarDivider style={{ display: "inline-flex" }} />
+                    <Title2 className={classes.toolbarTitle}>Edge Computing</Title2>
+                    {/* <ToolbarDivider style={{ display: "inline-flex" }} /> */}
+                </ToolbarGroup>
+                <ToolbarGroup role="presentation">
+                    <ToolbarButton as="a" href="https://github.com/GordonSmith/hpcc-wasm" target="_blank" icon={<GitHubLogoIcon />} />
+                    <ToolbarDivider style={{ display: "inline-flex" }} />
+                    <Menu>
+                        <MenuTrigger>
+                            <ToolbarButton aria-label="More" icon={<MoreHorizontal24Filled />} />
+                        </MenuTrigger>
 
-                    <MenuPopover >
-                        <MenuList>
-                            <MenuItemLink href="https://github.com/microsoft/fluentui" target="_blank">FluentUI:  GitHub</MenuItemLink>
-                            <MenuItemLink href="https://react.fluentui.dev/?path=/docs/concepts-introduction--page" target="_blank">FluentUI:  Docs</MenuItemLink>
-                            <MenuItem>New </MenuItem>
-                            <MenuItem>New Window</MenuItem>
-                            <MenuItem disabled>Open File</MenuItem>
-                            <MenuItem>Open Folder</MenuItem>
-                        </MenuList>
-                    </MenuPopover>
-                </Menu>
-            </ToolbarGroup>
-        </Toolbar>
-        <div className={styles.root}>
-            <TabList defaultSelectedValue="tab1" selectedValue={selectedValue} onTabSelect={onTabSelect} vertical size="large" className={styles.sidebar}>
-                <Tab value="tab1" title="Home" icon={<HomeFilled />}>Home</Tab>
-                <Tab value="tab3" icon={<MoreHorizontal24Filled />}>XXX</Tab>
+                        <MenuPopover >
+                            <MenuList>
+                                <MenuItemLink href="https://github.com/microsoft/fluentui" target="_blank">FluentUI:  GitHub</MenuItemLink>
+                                <MenuItemLink href="https://react.fluentui.dev/?path=/docs/concepts-introduction--page" target="_blank">FluentUI:  Docs</MenuItemLink>
+                                <MenuItem>New </MenuItem>
+                                <MenuItem>New Window</MenuItem>
+                                <MenuItem disabled>Open File</MenuItem>
+                                <MenuItem>Open Folder</MenuItem>
+                            </MenuList>
+                        </MenuPopover>
+                    </Menu>
+                </ToolbarGroup>
+            </Toolbar>
+        </header>
+        <nav className={classes.left}>
+            <TabList defaultSelectedValue="home" selectedValue={selectedValue} onTabSelect={onTabSelect} vertical size="large" >
+                <Tab value="home" title="Home" icon={<HomeFilled />}>Home</Tab>
+                <Tab value="ojs" icon={<MoreHorizontal24Filled />}>XXX</Tab>
                 <Tab value="tab4" icon={<GridDotsFilled />}>YYY</Tab>
             </TabList>
-            <div className={styles.content}>
-                {selectedValue === "tab1" && <Placeholder />}
+        </nav>
+        <main className={classes.main}>
+            <div>
+                {selectedValue === "home" && <Placeholder />}
+                {selectedValue === "ojs" && <Observable />}
             </div>
-        </div>
-    </>;
+        </main>
+        <nav className={classes.right}>
+        </nav>
+        <div className={classes.footer}>...footer...</div>
+    </div>;
 }

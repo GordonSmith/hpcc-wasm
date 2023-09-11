@@ -1,9 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { FluentProvider, teamsDarkTheme, useThemeClassName, webDarkTheme, webLightTheme } from '@fluentui/react-components';
+import { FluentProvider, makeStaticStyles, teamsDarkTheme, teamsLightTheme, useThemeClassName, webDarkTheme, webLightTheme } from '@fluentui/react-components';
 import { App } from './app';
-
-import './index.css';
 
 function ApplyToBody() {
   const classes = useThemeClassName();
@@ -18,10 +16,10 @@ function ApplyToBody() {
   return null;
 }
 
-const container = document.getElementById('root');
+const container = document.body;
 const root = createRoot(container!);
 root.render(
-  <FluentProvider theme={webLightTheme}>
+  <FluentProvider theme={teamsLightTheme}>
     <ApplyToBody />
     <App />
   </FluentProvider>

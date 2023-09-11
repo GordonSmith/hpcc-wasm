@@ -16,7 +16,6 @@
     "node": "16 || >=18"
   },
   "dependencies": {
-    "@fluentui/react": "8.111.2",
     "@fluentui/react-components": "9.30.4",
     "@fluentui/react-hooks": "8.6.29",
     "@fluentui/react-icons-mdl2": "1.3.49",

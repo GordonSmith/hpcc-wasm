@@ -85,6 +85,13 @@ fn main(req: Request) -> Result<Response, Error> {
             Ok(gh_fetch(path).unwrap())
         }
 
+        "/test" => {
+            let global = ConfigStore::open("global");
+            let gh_actor = global.get("gh_actor").unwrap();
+
+            Ok(Response::from_status(StatusCode::OK).with_body_text_plain(gh_actor.as_str()))
+        }
+
         // Catch all other requests and return a 404.
         _ => Ok(Response::from_status(StatusCode::NOT_FOUND)
             .with_body_text_plain("The page you requested could not be found\n")),

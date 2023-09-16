@@ -28,4 +28,4 @@ service_id = "3qrkLJZMrQHWn5b6n6c8n6"
 
       [local_server.config_stores.global.contents]
         gh_actor = "GordonSmith"
-        gh_token = "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"
+        gh_token = "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"

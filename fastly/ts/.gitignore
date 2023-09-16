@@ -5,3 +5,5 @@
 /dist
 /node_modules
 /pkg
+.env.sh
+fastly.toml

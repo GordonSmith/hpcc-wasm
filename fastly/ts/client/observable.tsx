@@ -23,6 +23,15 @@ export const Observable: React.FunctionComponent<ObservableProps> = ({
     const forceUpdate = useForceUpdate();
 
     React.useEffect(() => {
+        fetch("/fetch").then(response => {
+            return response.json();
+        }).then(json => {
+            //base64 decode content
+            json.content = atob(json.content);
+            console.log(json);
+        }).catch(e => {
+            console.error(e.message);
+        });
         download("https://observablehq.com/@observablehq/summary-table")
             .then(ohqnb => {
                 return compile(ohqnb);

@@ -13,14 +13,14 @@ fn gh_fetch(path: &str) -> Result<Response, Error> {
         gh_actor, "hpcc-wasm", path
     );
 
-    let mut bereq = Request::get(url)
+    let bereq = Request::get(url)
         .with_header("User-Agent", "fastly::http")
         .with_header("Accept", "application/vnd.github+json")
         .with_header("Authorization", format!("Bearer {}", gh_token))
         .with_header("X-GitHub-Api-Version", "2022-11-28")
         .with_ttl(60);
 
-    let mut beresp = bereq.send("github")?;
+    let beresp = bereq.send("github")?;
 
     return Ok(beresp);
     // return Ok(format!("Bearer {}", gh_token));
@@ -87,7 +87,7 @@ fn main(req: Request) -> Result<Response, Error> {
 
         "/test" => {
             let global = ConfigStore::open("global");
-            let gh_actor = global.get("gh_actor").unwrap();
+            let gh_actor = global.get("gh_token").unwrap();
 
             Ok(Response::from_status(StatusCode::OK).with_body_text_plain(gh_actor.as_str()))
         }

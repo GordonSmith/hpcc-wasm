@@ -1,7 +1,10 @@
 //! Default Compute@Edge template program.
 
+use fastly::geo::geo_lookup;
 use fastly::http::{header, Method, StatusCode};
 use fastly::{mime, ConfigStore, Error, Request, Response};
+use serde_json::{json, Value};
+use std::net::IpAddr;
 
 fn gh_fetch(path: &str) -> Result<Response, Error> {
     let global = ConfigStore::open("global");
@@ -24,6 +27,22 @@ fn gh_fetch(path: &str) -> Result<Response, Error> {
 
     return Ok(beresp);
     // return Ok(format!("Bearer {}", gh_token));
+}
+
+fn geo_info(client_ip: IpAddr) -> Result<Value, Error> {
+    let geo = geo_lookup(client_ip).unwrap();
+    let body = json!({
+        "as": {
+            "name": geo.as_name(),
+        },
+        "geo" : {
+            "city": geo.city(),
+            "client_ip": client_ip,
+            "country_name": geo.country_name(),
+            "gmt_offset:": geo.utc_offset().unwrap().to_string(),
+        },
+    });
+    Ok(body)
 }
 
 #[fastly::main]
@@ -83,6 +102,13 @@ fn main(req: Request) -> Result<Response, Error> {
                 .unwrap_or_else(|| "fastly/ts/docs/home.md");
 
             Ok(gh_fetch(path).unwrap())
+        }
+
+        "/geo" => {
+            let client_ip = req.get_client_ip_addr().unwrap();
+            let info = geo_info(client_ip).unwrap();
+            Ok(Response::from_status(StatusCode::OK)
+                .with_body_text_plain(info.to_string().as_str()))
         }
 
         "/test" => {

@@ -1,8 +1,8 @@
 import React from "react";
-import { Skeleton, SkeletonItem, makeStyles } from "@fluentui/react-components";
+import { makeStyles } from "@fluentui/react-components";
 import { useConst, useForceUpdate } from "@fluentui/react-hooks"
 import { Library, Runtime, Inspector } from "@observablehq/runtime";
-import { compile, compileFunc, download, } from "@hpcc-js/observablehq-compiler";
+import { compile, compileFunc, omd2notebook } from "@hpcc-js/observablehq-compiler";
 
 import "@hpcc-js/observablehq-compiler/dist/index.esm.css";
 
@@ -23,23 +23,20 @@ export const Observable: React.FunctionComponent<ObservableProps> = ({
     const forceUpdate = useForceUpdate();
 
     React.useEffect(() => {
+        setNotebook({ notebook: undefined });
         fetch("/fetch").then(response => {
             return response.json();
         }).then(json => {
-            //base64 decode content
-            json.content = atob(json.content);
-            console.log(json);
+            return atob(json.content);
+        }).then(nb => {
+            return omd2notebook(nb);
+        }).then(ohqnb => {
+            return compile(ohqnb);
+        }).then(compiledNB => {
+            setNotebook({ notebook: compiledNB });
         }).catch(e => {
             console.error(e.message);
         });
-        download("https://observablehq.com/@observablehq/summary-table")
-            .then(ohqnb => {
-                return compile(ohqnb);
-            }).then(compiledNB => {
-                setNotebook({ notebook: compiledNB });
-            }).catch(e => {
-                console.error(e.message);
-            });
     }, []);
 
     React.useEffect(() => {
@@ -57,15 +54,6 @@ export const Observable: React.FunctionComponent<ObservableProps> = ({
 
     return <div>
         <div ref={placeholder} className={styles.root}>
-            {notebook.notebook === undefined ? <Skeleton>
-                <SkeletonItem />
-                <SkeletonItem />
-                <SkeletonItem />
-                <SkeletonItem />
-                <SkeletonItem />
-                <SkeletonItem />
-                <SkeletonItem />
-            </Skeleton> : undefined}
         </div>
     </div>;
 }

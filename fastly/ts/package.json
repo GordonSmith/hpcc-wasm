@@ -6,7 +6,7 @@
     "clean": "rimraf bin build dist pkg target",
     "bundle-client": "npx -y esbuild --bundle --platform=browser --format=esm --outdir=./dist ./client/index.tsx",
     "bundle-client-watch": "npm run bundle-client -- --watch --servedir=.",
-    "bundle-client-production": "npm run bundle-client -- --minify --sourcemap",
+    "bundle-client-production": "npm run bundle-client -- --tree-shaking=true --minify --sourcemap --target=es2020",
     "prebuild": "npm run bundle-client-production && tsc",
     "build": "js-compute-runtime build/index.js bin/main.wasm",
     "serve": "fastly compute serve --watch",

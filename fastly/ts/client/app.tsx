@@ -13,6 +13,10 @@ const Placeholder = React.memo(() => (
     </div>
 ));
 
+function removeExtensionAndCapatilize(name: string) {
+    return name.replace(/\.[^/.]+$/, "").replace(/^[a-z]/, (c) => c.toUpperCase());
+}
+
 const useStaticStyles = makeStaticStyles({
     body: {
         overflow: "hidden",
@@ -64,10 +68,32 @@ export const App = (props: Partial<ToolbarProps>) => {
 
     useStaticStyles();
     const [selectedValue, setSelectedValue] = React.useState<TabValue>("home");
+    const [tabItems, setTabItems] = React.useState<{ name: string, path: string }[]>([]);
+    const [path, setPath] = React.useState<TabValue>("");
+
+    React.useEffect(() => {
+        fetch("/list").then(response => {
+            return response.json();
+        }).then(json => {
+            setTabItems(json);
+        }).catch(e => {
+            console.error(e.message);
+        });
+    }, []);
 
     const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
         setSelectedValue(data.value);
+        setPath(data.value);
     };
+
+    React.useEffect(() => {
+        const items = tabItems.filter((item: any) => item.name === selectedValue);
+        if (items[0]) {
+            setPath(items[0].path);
+        } else {
+            setPath("");
+        }
+    }, [tabItems]);
 
     const classes = useClasses();
 
@@ -104,15 +130,20 @@ export const App = (props: Partial<ToolbarProps>) => {
         </header>
         <nav className={classes.left}>
             <TabList defaultSelectedValue="home" selectedValue={selectedValue} onTabSelect={onTabSelect} vertical size="large" >
-                <Tab value="home" title="Home" icon={<HomeFilled />}>Home</Tab>
-                <Tab value="ojs" icon={<MoreHorizontal24Filled />}>XXX</Tab>
-                <Tab value="tab4" icon={<GridDotsFilled />}>YYY</Tab>
+                {<Tab value="home" title="Home" icon={<HomeFilled />}>Home</Tab>}
+                {/*<Tab value="ojs" icon={<MoreHorizontal24Filled />}>XXX</Tab> */}
+                {/* <Tab value="tab4" icon={<GridDotsFilled />}>YYY</Tab> */}
+                {
+                    tabItems.map((item: any) => {
+                        return <Tab value={item.path} >{removeExtensionAndCapatilize(item.name)}</Tab>;
+                    })
+                }
             </TabList>
         </nav>
         <main className={classes.main}>
             <div>
                 {selectedValue === "home" && <Placeholder />}
-                {selectedValue === "ojs" && <Observable />}
+                {selectedValue !== "home" && <Observable path={path} />}
             </div>
         </main>
         <nav className={classes.right}>

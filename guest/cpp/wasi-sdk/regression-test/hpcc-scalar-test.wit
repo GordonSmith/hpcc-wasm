@@ -29,7 +29,7 @@ world hpcc-scalar-test {
   export s16-test: func(a: s16, b: s16) -> s16
   export s32-test: func(a: s32, b: s32) -> s32
   export s64-test: func(a: s64, b: s64) -> s64
-  export string-test: func(a: string, b: string) -> string
+  export utf8-string-test: func(a: string, b: string) -> string
 
   export list-bool-test: func(a: list<bool>) -> list<bool>
 }

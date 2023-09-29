@@ -100,8 +100,16 @@ fn main(req: Request) -> Result<Response, Error> {
             let path = req
                 .get_query_parameter("path")
                 .unwrap_or_else(|| "fastly/ts/docs/home.md");
+            let response = gh_fetch(path).unwrap();
 
-            Ok(gh_fetch(path).unwrap())
+            // Decode the content property of the JSON response
+            let body = response.into_body();
+            let bytes = body.into_bytes();
+            let json_response: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+            let encoded = json_response["content"].as_str().unwrap();
+            let decoded_bytes = base64::decode(encoded.replace("\n", "")).unwrap();
+            let decoded_string = String::from_utf8(decoded_bytes).unwrap();
+            Ok(Response::from_status(StatusCode::OK).with_body_text_plain(decoded_string.as_str()))
         }
 
         "/geo" => {
@@ -113,9 +121,18 @@ fn main(req: Request) -> Result<Response, Error> {
 
         "/test" => {
             let global = ConfigStore::open("global");
-            let gh_actor = global.get("gh_token").unwrap();
+            let gh_actor = global.get("gh_actor").unwrap();
+            let gh_token = global.get("gh_token").unwrap();
 
             Ok(Response::from_status(StatusCode::OK).with_body_text_plain(gh_actor.as_str()))
+        }
+
+        "/test2" => {
+            let global = ConfigStore::open("global");
+            let gh_actor = global.get("gh_actor").unwrap();
+            let gh_token = global.get("gh_token").unwrap();
+
+            Ok(Response::from_status(StatusCode::OK).with_body_text_plain(gh_token.as_str()))
         }
 
         // Catch all other requests and return a 404.

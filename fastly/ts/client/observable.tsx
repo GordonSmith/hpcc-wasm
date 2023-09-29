@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@fluentui/react-components";
+import { TabValue, makeStyles } from "@fluentui/react-components";
 import { useConst, useForceUpdate } from "@fluentui/react-hooks"
 import { Library, Runtime, Inspector } from "@observablehq/runtime";
 import { compile, compileFunc, omd2notebook } from "@hpcc-js/observablehq-compiler";
@@ -12,9 +12,11 @@ export const useStyles = makeStyles({
 });
 
 export interface ObservableProps {
+    path: TabValue;
 }
 
 export const Observable: React.FunctionComponent<ObservableProps> = ({
+    path
 }) => {
     const placeholder = React.useRef<HTMLDivElement>(null);
     const library = useConst(new Library());
@@ -24,12 +26,10 @@ export const Observable: React.FunctionComponent<ObservableProps> = ({
 
     React.useEffect(() => {
         setNotebook({ notebook: undefined });
-        fetch("/fetch").then(response => {
-            return response.json();
-        }).then(json => {
-            return atob(json.content);
-        }).then(nb => {
-            return omd2notebook(nb);
+        fetch(`/fetch?path=${path}`).then(response => {
+            return response.text();
+        }).then(text => {
+            return omd2notebook(text);
         }).then(ohqnb => {
             return compile(ohqnb);
         }).then(compiledNB => {
@@ -37,7 +37,7 @@ export const Observable: React.FunctionComponent<ObservableProps> = ({
         }).catch(e => {
             console.error(e.message);
         });
-    }, []);
+    }, [path]);
 
     React.useEffect(() => {
         if (notebook.notebook) {
@@ -54,6 +54,7 @@ export const Observable: React.FunctionComponent<ObservableProps> = ({
 
     return <div>
         <div ref={placeholder} className={styles.root}>
+            ...loading...
         </div>
     </div>;
 }

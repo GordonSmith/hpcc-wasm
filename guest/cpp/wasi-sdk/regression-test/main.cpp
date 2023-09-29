@@ -58,7 +58,7 @@ uint32_t hpcc_scalar_test_char_test(uint32_t a, uint32_t b)
     return a + b;
 }
 uint32_t tally = 0;
-void hpcc_scalar_test_string_test(hpcc_scalar_test_string_t *a, hpcc_scalar_test_string_t *b, hpcc_scalar_test_string_t *ret)
+void hpcc_scalar_test_utf8_string_test(hpcc_scalar_test_string_t *a, hpcc_scalar_test_string_t *b, hpcc_scalar_test_string_t *ret)
 {
     std::string s1(a->ptr, a->len);
     hpcc_scalar_test_string_free(a);

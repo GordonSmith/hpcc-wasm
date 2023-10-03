@@ -55,11 +55,11 @@ integer2 s16Test (integer2 a, integer2 b) := IMPORT(wasm, 'regress-test.s16-test
 integer4 s32Test (integer4 a, integer4 b) := IMPORT(wasm, 'regress-test.s32-test');
 integer8 s64Test (integer8 a, integer8 b) := IMPORT(wasm, 'regress-test.s64-test');
 string stringTest (string a, string b) := IMPORT(wasm, 'regress-test.string-test');
-string7 string5Test (string5 a, string5 b) := IMPORT(wasm, 'regress-test.string-test');
+string12 string5Test (string5 a, string5 b) := IMPORT(wasm, 'regress-test.string-test');
 varstring varstringTest (varstring a, varstring b) := IMPORT(wasm, 'regress-test.string-test');
-// unicode7 unicode5Test (unicode5 a, unicode5 b) := IMPORT(wasm, 'regress-test.string-test');
-// unicode unicodeTest (unicode a, unicode b) := IMPORT(wasm, 'regress-test.string-test');
-utf8_7 utf8_5Test (utf8_5 a, utf8_5 b) := IMPORT(wasm, 'regress-test.string-test');
+unicode12 unicode5Test (unicode5 a, unicode5 b) := IMPORT(wasm, 'regress-test.string-test');
+unicode unicodeTest (unicode a, unicode b) := IMPORT(wasm, 'regress-test.string-test');
+utf8_12 utf8_5Test (utf8_5 a, utf8_5 b) := IMPORT(wasm, 'regress-test.string-test');
 utf8 utf8Test (utf8 a, utf8 b) := IMPORT(wasm, 'regress-test.string-test');
 set of boolean listBoolTest(set of boolean a) := IMPORT(wasm, 'regress-test.list-bool-test');
 
@@ -102,15 +102,12 @@ s64Test(-9223372036854775808, -1) = (integer8)(-9223372036854775808 - 1);
 '--- string ---';
 varstringTest('1234567890', 'abcdefghij') = '1234567890' + 'abcdefghij';
 stringTest('1234567890', 'abcdefghij') = '1234567890' + 'abcdefghij';
-// unicodeTest(U'1234567890您好1231231230', U'abcdefghij欢迎光临abcdefghij') != U'1234567890您好1231231230' + U'abcdefghij欢迎光临abcdefghij';
-UTF8 FirstName := U8'Noël';                 // utf-8-encoded string
-UTF8 autf8 := U8'您好';
-UTF8 butf8 := U8'欢迎光临';
-utf8Test(autf8, butf8) != autf8 + butf8;
+unicodeTest(U'1234567890您好1231231230', U'abcdefghij欢迎光临abcdefghij') = U'1234567890您好1231231230' + U'abcdefghij欢迎光临abcdefghij';
+utf8Test(U8'您好', U8'欢迎光临') = U8'您好' + U8'欢迎光临';
 '--- string (fixed length) ---';
-string5Test('1234567890', 'abcdefghij') = (string7)((string5)'1234567890' + (string5)'abcdefghij');
-// unicode5Test(U'1234567890', U'abcdefghij') = (unicode7)((unicode5)U'1234567890' + (unicode5)U'abcdefghij');
-utf8_5Test(U8'1234567890', U8'abcdefghij') = (utf8_7)((utf8_5)U8'1234567890' + (utf8_5)U8'abcdefghij');
+string5Test('1234567890', 'abcdefghij') = (string12)((string5)'1234567890' + (string5)'abcdefghij');
+utf8_5Test(U8'您好1234567890', U8'欢迎光临abcdefghij') = (utf8_12)((utf8_5)U8'您好1234567890' + (utf8_5)U8'欢迎光临abcdefghij');
+unicode5Test(U'您好1234567890', U'欢迎光临abcdefghij') = (unicode12)((unicode5)U'您好1234567890' + (unicode5)U'欢迎光临abcdefghij');
 '--- reentry ---';
 r := RECORD
   unsigned1 kind;

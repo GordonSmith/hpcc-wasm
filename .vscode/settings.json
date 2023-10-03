@@ -82,5 +82,7 @@
         "*.ipp": "c"
     },
     "ecl.launchConfiguration": "localhost",
-    "ecl.targetCluster": {},
+    "ecl.targetCluster": {
+        "localhost": "thor"
+    },
 }

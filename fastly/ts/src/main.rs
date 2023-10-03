@@ -31,18 +31,28 @@ fn gh_fetch(path: &str) -> Result<Response, Error> {
 
 fn geo_info(client_ip: IpAddr) -> Result<Value, Error> {
     let geo = geo_lookup(client_ip).unwrap();
-    let body = json!({
-        "as": {
-            "name": geo.as_name(),
-        },
-        "geo" : {
-            "city": geo.city(),
-            "client_ip": client_ip,
-            "country_name": geo.country_name(),
-            "gmt_offset:": geo.utc_offset().unwrap().to_string(),
-        },
+    let geo_josn = json!({
+        "client_ip": client_ip.to_string(),
+        "as_name": geo.as_name(),
+        "as_number": geo.as_number(),
+        "area_code": geo.area_code(),
+        "city": geo.city(),
+        "conn_speed": geo.conn_speed(),
+        "conn_type": geo.conn_type(),
+        "continent": geo.continent(),
+        "country_code": geo.country_code(),
+        "country_code3": geo.country_code3(),
+        "country_name": geo.country_name(),
+        "latitude": geo.latitude(),
+        "longitude": geo.longitude(),
+        "metro_code": geo.metro_code(),
+        "postal_code": geo.postal_code(),
+        "proxy_description": geo.proxy_description(),
+        "proxy_type": geo.proxy_type(),
+        "region": geo.region(),
+        "utc_offset": geo.utc_offset()
     });
-    Ok(body)
+    Ok(geo_josn)
 }
 
 #[fastly::main]
@@ -116,9 +126,14 @@ fn main(req: Request) -> Result<Response, Error> {
             let client_ip = req.get_client_ip_addr().unwrap();
             let info = geo_info(client_ip).unwrap();
             Ok(Response::from_status(StatusCode::OK)
-                .with_body_text_plain(info.to_string().as_str()))
+                .with_content_type(mime::APPLICATION_JSON)
+                .with_body(info.to_string()))
         }
 
+        // "/geo2" => {
+        //     let url = url::Url::parse("https://tech-summit.edgecompute.app/").unwrap();
+        //     let addrs = url.socket_addrs(|| None).unwrap();
+        // }
         "/test" => {
             let global = ConfigStore::open("global");
             let gh_actor = global.get("gh_actor").unwrap();

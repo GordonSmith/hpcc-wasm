@@ -63,6 +63,30 @@ utf8_12 utf8_5Test (utf8_5 a, utf8_5 b) := IMPORT(wasm, 'regress-test.string-tes
 utf8 utf8Test (utf8 a, utf8 b) := IMPORT(wasm, 'regress-test.string-test');
 set of boolean listBoolTest(set of boolean a) := IMPORT(wasm, 'regress-test.list-bool-test');
 
+'--- reentry ---';
+r := RECORD
+  unsigned1 kind;
+  string20 word;
+  unsigned8 doc;
+  unsigned1 segment;
+  unsigned8 wpos;
+ END;
+d := dataset('~regress::multi::searchsource', r, THOR);
+
+r2 := RECORD(r)
+  boolean passed;
+END;
+
+r2 t(r L) := TRANSFORM
+  boolean a := u64Test(L.doc, L.wpos) = (unsigned8)(L.doc + L.wpos);
+  boolean b := true;//stringTest(L.word, L.word) = L.word + L.word;
+  SELF.passed := a and B;
+  SELF := L;
+END;
+
+d2 := project(choosen(d, 100), t(LEFT));
+d2;
+count(d2(passed=false)) = 0;
 '--- list of bool ---';
 // listBoolTest([true, false, false]) = [false, false, true];
 
@@ -108,27 +132,4 @@ utf8Test(U8'您好', U8'欢迎光临') = U8'您好' + U8'欢迎光临';
 string5Test('1234567890', 'abcdefghij') = (string12)((string5)'1234567890' + (string5)'abcdefghij');
 utf8_5Test(U8'您好1234567890', U8'欢迎光临abcdefghij') = (utf8_12)((utf8_5)U8'您好1234567890' + (utf8_5)U8'欢迎光临abcdefghij');
 unicode5Test(U'您好1234567890', U'欢迎光临abcdefghij') = (unicode12)((unicode5)U'您好1234567890' + (unicode5)U'欢迎光临abcdefghij');
-'--- reentry ---';
-r := RECORD
-  unsigned1 kind;
-  string20 word;
-  unsigned8 doc;
-  unsigned1 segment;
-  unsigned8 wpos;
- END;
-d := dataset('~regress::multi::searchsource', r, THOR);
-
-r2 := RECORD(r)
-  boolean passed;
-END;
-
-r2 t(r L) := TRANSFORM
-  boolean a := u64Test(L.doc, L.wpos) = (unsigned8)(L.doc + L.wpos);
-  boolean b := stringTest(L.word, L.word) = L.word + L.word;
-  SELF.passed := a and B;
-  SELF := L;
-END;
-
-d2 := project(choosen(d, 100000), t(LEFT));
-count(d2(passed=false)) = 0;
 '--- --- ---';

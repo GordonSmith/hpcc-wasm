@@ -1,3 +1,4 @@
 <Manifest>
     <Resource filename="regress-test.wasm" type="wasm" />
+    <Resource filename="regress-test2.wasm" type="wasm" />
 </Manifest>

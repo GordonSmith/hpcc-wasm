@@ -18,7 +18,7 @@ integer4 gcd(integer4 val1, integer4 val2) := EMBED(wasm)
         local.tee 2
         i32.rem_u
         local.set 0
-        local.get 2
+        local.get 2                                                                           
         local.set 1
         local.get 0
         br_if 0 (;$val2;)
@@ -44,49 +44,25 @@ ENDEMBED;
 // inlineAdd(22, 20);
 
 boolean boolTest (boolean a, boolean b) := IMPORT(wasm, 'regress-test.bool-test');
-real4 float32Test (real4 a, real4 b) := IMPORT(wasm, 'regress-test.float32-test');
+real4 float32Test (real4 a, real4 b) := IMPORT(wasm, 'regress-test2.float32-test');
 real8 float64Test (real8 a, real8 b) := IMPORT(wasm, 'regress-test.float64-test');
-unsigned1 u8Test (unsigned1 a, unsigned1 b) := IMPORT(wasm, 'regress-test.u8-test');
+unsigned1 u8Test (unsigned1 a, unsigned1 b) := IMPORT(wasm, 'regress-test2.u8-test');
 unsigned2 u16Test (unsigned2 a, unsigned2 b) := IMPORT(wasm, 'regress-test.u16-test');
-unsigned4 u32Test (unsigned4 a, unsigned4 b) := IMPORT(wasm, 'regress-test.u32-test');
+unsigned4 u32Test (unsigned4 a, unsigned4 b) := IMPORT(wasm, 'regress-test2.u32-test');
 unsigned8 u64Test (unsigned8 a, unsigned8 b) := IMPORT(wasm, 'regress-test.u64-test');
-integer1 s8Test (integer1 a, integer1 b) := IMPORT(wasm, 'regress-test.s8-test');
+integer1 s8Test (integer1 a, integer1 b) := IMPORT(wasm, 'regress-test2.s8-test');
 integer2 s16Test (integer2 a, integer2 b) := IMPORT(wasm, 'regress-test.s16-test');
-integer4 s32Test (integer4 a, integer4 b) := IMPORT(wasm, 'regress-test.s32-test');
+integer4 s32Test (integer4 a, integer4 b) := IMPORT(wasm, 'regress-test2.s32-test');
 integer8 s64Test (integer8 a, integer8 b) := IMPORT(wasm, 'regress-test.s64-test');
-string stringTest (string a, string b) := IMPORT(wasm, 'regress-test.string-test');
-string12 string5Test (string5 a, string5 b) := IMPORT(wasm, 'regress-test.string-test');
+string stringTest (string a, string b) := IMPORT(wasm, 'regress-test2.string-test');
+string12 string5Test (string5 a, string5 b) := IMPORT(wasm, 'regress-test2.string-test');
 varstring varstringTest (varstring a, varstring b) := IMPORT(wasm, 'regress-test.string-test');
-unicode12 unicode5Test (unicode5 a, unicode5 b) := IMPORT(wasm, 'regress-test.string-test');
+unicode12 unicode5Test (unicode5 a, unicode5 b) := IMPORT(wasm, 'regress-test2.string-test');
 unicode unicodeTest (unicode a, unicode b) := IMPORT(wasm, 'regress-test.string-test');
-utf8_12 utf8_5Test (utf8_5 a, utf8_5 b) := IMPORT(wasm, 'regress-test.string-test');
+utf8_12 utf8_5Test (utf8_5 a, utf8_5 b) := IMPORT(wasm, 'regress-test2.string-test');
 utf8 utf8Test (utf8 a, utf8 b) := IMPORT(wasm, 'regress-test.string-test');
-set of boolean listBoolTest(set of boolean a) := IMPORT(wasm, 'regress-test.list-bool-test');
+set of boolean listBoolTest(set of boolean a) := IMPORT(wasm, 'regress-test2.list-bool-test');
 
-'--- reentry ---';
-r := RECORD
-  unsigned1 kind;
-  string20 word;
-  unsigned8 doc;
-  unsigned1 segment;
-  unsigned8 wpos;
- END;
-d := dataset('~regress::multi::searchsource', r, THOR);
-
-r2 := RECORD(r)
-  boolean passed;
-END;
-
-r2 t(r L) := TRANSFORM
-  boolean a := u64Test(L.doc, L.wpos) = (unsigned8)(L.doc + L.wpos);
-  boolean b := true;//stringTest(L.word, L.word) = L.word + L.word;
-  SELF.passed := a and B;
-  SELF := L;
-END;
-
-d2 := project(choosen(d, 100), t(LEFT));
-d2;
-count(d2(passed=false)) = 0;
 '--- list of bool ---';
 // listBoolTest([true, false, false]) = [false, false, true];
 
@@ -132,4 +108,27 @@ utf8Test(U8'您好', U8'欢迎光临') = U8'您好' + U8'欢迎光临';
 string5Test('1234567890', 'abcdefghij') = (string12)((string5)'1234567890' + (string5)'abcdefghij');
 utf8_5Test(U8'您好1234567890', U8'欢迎光临abcdefghij') = (utf8_12)((utf8_5)U8'您好1234567890' + (utf8_5)U8'欢迎光临abcdefghij');
 unicode5Test(U'您好1234567890', U'欢迎光临abcdefghij') = (unicode12)((unicode5)U'您好1234567890' + (unicode5)U'欢迎光临abcdefghij');
+'--- reentry ---';
+r := RECORD
+  unsigned1 kind;
+  string20 word;
+  unsigned8 doc;
+  unsigned1 segment;
+  unsigned8 wpos;
+ END;
+d := dataset('~regress::multi::searchsource', r, THOR);
+
+r2 := RECORD(r)
+  boolean passed;
+END;
+
+r2 t(r L) := TRANSFORM
+  boolean a := u64Test(L.doc, L.wpos) = (unsigned8)(L.doc + L.wpos);
+  boolean b := stringTest(L.word, L.word) = L.word + L.word;
+  SELF.passed := a and B;
+  SELF := L;
+END;
+
+d2 := project(choosen(d, 100000), t(LEFT));
+count(d2(passed=false)) = 0;
 '--- --- ---';
